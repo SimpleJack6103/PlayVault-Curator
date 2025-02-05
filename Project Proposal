@@ -1,0 +1,102 @@
+Project title:  PlayVault Curator
+
+1 Purpose 
+
+ 
+
+The purpose of this project is to create a digital game library management system that assists users in optimizing the use of their console/computer’s data storage, tracking gaming history, and 
+exploring titles new to the user. 
+This application aims to enhance a user’s gaming experience by maintaining games & add-ons (additional purchases for said game), in the user’s library through time tracking and in-game purchases. 
+This application will share reports of information it gathers to solely the account holder, maintaining the privacy and security of the user’s information. 
+This application will provide alerts on necessary updates to games downloaded, along with details of how much storage the update will take up. 
+If the game has not been used in set amount of time (set by user: days/weeks/years), the management system will prompt the account holder, giving a status of the game (storage, last used, hours spent, 
+add on-game purchases, subscriptions (if applicable) ) and recommend appropriate action to the account holder, but not automatically clean storage up itself, so as to give the user complete control of 
+their library. This application will take information gathered from user's game history and compare it to games (new and old) from a database of games. It will then curate a list of games to the user 
+based on developer, genre, data storage and compatibility, so that it fits with the user’s taste and available storage. 
+This will make it easier for the user to explore new titles and get through the backlog of games in their libraries. This also helps the application recommend games similar to what the user actually plays 
+rather than just going off of what has been purchased.  
+
+2 Scope 
+
+The proposed system, PlayVault Curartor, will be a web-based and console-compatible application that enables users to organize and optimize their game libraries. 
+It will offer features such as game time tracking, game recommendation algorithms, data storage optimization suggestions and integration with digital game stores databases. Key functionalities include: 
+
+User authentication and permissions access 
+
+Timing game play and recording dates of last accessed for games 
+
+Data storage analysis and optimization suggestions 
+
+Access to game data base through IGDB (internet game database) 
+
+Access of user metrics through Steam API 
+
+Track purchases associated with account 
+
+Notification of new releases (including niche titles), game updates, and data consumption 
+
+Organize game libraries (by title/developer/genre/last played) 
+
+Extended feature (if time allows):  Organize wish list and inform user on deals, new additions and current market price for listed games in wish list 
+
+Extended feature (if time allows): Search the web for external hard drives compatible with the user’s console or computer when prompted for “options for external space”. 
+Application will need access to systems info: make, model and year. 
+
+ 
+This application will allow the user to easily find solutions for wasted space, keep track of subscriptions (if applicable) and will make it convenient to explore game titles new to the user. 
+
+  
+
+3 User characteristics 
+
+ 
+
+3.1 Key users : Hardcore/Active Gamers 
+
+The Hardcore/Active Gamers: utilize the tool to optimize storage space, track their gaming habits, managed subscriptions (if applicable) and discover niche/underplayed titles 
+
+Subject matter experience: Moderate to Journeyman level of gaming experience to take full advantage of our recommendation algorithm, since it works better with more games to look at in user library. 
+
+Technological experience: Novice to Moderate experience is all that's required since the application does all the research, analysis and exploration for you. 
+The user just has to decide to act on the notifications and be able to navigate their own settings and libraries. 
+
+Attributes:  
+
+Age: Average age range of users is somewhere between 18 to 35, modern era has kids growing up to be tech savvy well before high school 
+
+Gender : any gender 
+
+Linguistic skills: assumes user is proficient in the English language 
+
+Platform: assumes users are buying digital copies of games rather than using CD-ROM 
+
+ 
+
+ 
+
+3.2 Secondary users : Casual Gamers 
+
+The Casual Gamers: use application to organize their game libraries and receive recommendations for new games and game updates. 
+
+Subject matter experience: Novice to Moderate level of gaming experience to at least use the organizational tool the user’s preferences, if not make it easy to find new games. 
+
+Technological experience: Novice to Moderate experience is all that's required since the application does all the research, analysis and exploration for you. 
+The user just has to decide to act on the notifications and be able to navigate their own settings and libraries. 
+
+Attributes:  
+
+Age: Average age range of users is somewhere between 18 to 35, modern era has kids growing up to be tech savvy well before high school 
+
+Gender : any gender 
+
+Linguistic skills: assumes user is proficient in the English language 
+
+Platform: assumes users are buying digital copies of games rather than using CD-ROM 
+
+ 
+
+ 
+
+ 
+
+ 
