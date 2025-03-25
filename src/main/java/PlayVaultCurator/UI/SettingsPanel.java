@@ -18,8 +18,8 @@ public class SettingsPanel extends VBox {
             ImageView gearIcon;
             Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/gear-icon.png")));
             gearIcon = new ImageView(image);
-            gearIcon.setFitWidth(20);
-            gearIcon.setFitHeight(20);
+            gearIcon.setFitWidth(15);
+            gearIcon.setFitHeight(15);
             settingsButton = new Button("", gearIcon);
         } catch (NullPointerException e) {
             System.err.println("Warning: gear-icon.png not found! Using fallback text.");
