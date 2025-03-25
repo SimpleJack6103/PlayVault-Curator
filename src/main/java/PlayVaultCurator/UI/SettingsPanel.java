@@ -10,29 +10,57 @@ import javafx.scene.layout.VBox;
 import java.util.Objects;
 
 public class SettingsPanel extends VBox {
-
     private Button settingsButton;
 
     public SettingsPanel() {
+        // Align to the top-right corner
+        setAlignment(Pos.TOP_RIGHT);
+        setSpacing(10);
+        setPadding(new Insets(5)); // Ensure it doesn’t touch the window edges
+
+        ImageView gearIcon;
+
         try {
-            ImageView gearIcon;
+            // Try to load the main gear icon
             Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/gear-icon.png")));
             gearIcon = new ImageView(image);
-            gearIcon.setFitWidth(15);
-            gearIcon.setFitHeight(15);
-            settingsButton = new Button("", gearIcon);
         } catch (NullPointerException e) {
-            System.err.println("Warning: gear-icon.png not found! Using fallback text.");
-            settingsButton = new Button("⚙"); // Unicode fallback
+            System.err.println("Warning: gear-icon.png not found! Trying fallback image...");
+            try {
+                // Try to load a fallback gear image
+                Image fallbackImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/fallback-gear.png")));
+                gearIcon = new ImageView(fallbackImage);
+            } catch (NullPointerException ex) {
+                System.err.println("Warning: fallback-gear.png not found! Using text instead.");
+                gearIcon = null; // No image available, fallback to text
+            }
         }
 
-        settingsButton.getStyleClass().add("settings-button");
-        settingsButton.setOnAction(e -> System.out.println("Settings Clicked"));
+        // If a valid gear image exists
+        if (gearIcon != null) {
+            gearIcon.setFitWidth(20);
+            gearIcon.setFitHeight(20);
+            settingsButton = new Button("", gearIcon);
+        } else {
+            // Fallback to Unicode icon if no image is available
+            settingsButton = new Button("⚙");
+        }
 
-        setAlignment(Pos.TOP_RIGHT);
-        setPadding(new Insets(5));
+        // Style the button
+        settingsButton.getStyleClass().add("settings-button");
+
+        // Set action to switch to the Settings page
+        settingsButton.setOnAction(e -> Main.switchToSettingsPage());
+
+        // Add the settings button to the panel
         getChildren().add(settingsButton);
     }
 }
+
+
+
+
+
+
 
 

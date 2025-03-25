@@ -3,6 +3,8 @@
     -fx-background-color: #121212;
     -fx-font-family: 'Roboto', sans-serif;
     -fx-text-fill: #E0E0E0;
+    -fx-border-width: 2px;
+    -fx-border-color: #BB86FC;
 }
 
 /* Button styling */

@@ -10,10 +10,8 @@ public class ResizeHelper {
 
     public static void addResizeListener(Stage stage, Region root) {
         root.setOnMouseMoved(event -> {
-            if (event.getSceneY() < RESIZE_MARGIN ||
-                    event.getSceneX() < RESIZE_MARGIN ||
-                    event.getSceneX() > stage.getWidth() - RESIZE_MARGIN ||
-                    event.getSceneY() > stage.getHeight() - RESIZE_MARGIN) {
+            // Detect if the mouse is within the resize margin
+            if (isMouseWithinResizeMargin(event, stage)) {
                 root.setCursor(getCursorForEdge(event, stage));
             } else {
                 root.setCursor(Cursor.DEFAULT);
@@ -78,6 +76,17 @@ public class ResizeHelper {
         });
     }
 
+    private static boolean isMouseWithinResizeMargin(MouseEvent event, Stage stage) {
+        double mouseX = event.getSceneX();
+        double mouseY = event.getSceneY();
+        double width = stage.getWidth();
+        double height = stage.getHeight();
+
+        // Return true if the mouse is within the resize margin
+        return (mouseX < RESIZE_MARGIN || mouseX > width - RESIZE_MARGIN ||
+                mouseY < RESIZE_MARGIN || mouseY > height - RESIZE_MARGIN);
+    }
+
     private static Cursor getCursorForEdge(MouseEvent event, Stage stage) {
         double mouseX = event.getSceneX();
         double mouseY = event.getSceneY();
@@ -98,5 +107,10 @@ public class ResizeHelper {
         else return Cursor.S_RESIZE;
     }
 }
+
+
+
+
+
 
 
