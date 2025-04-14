@@ -1,13 +1,20 @@
-/* Root pane styling */
+/* ---------------------- GLOBAL STYLES ---------------------- */
+/* #BB86FC - The purple color used */
 .root {
     -fx-background-color: #121212;
     -fx-font-family: 'Roboto', sans-serif;
-    -fx-text-fill: #E0E0E0;
+    -fx-text-fill: #BB86FC;
     -fx-border-width: 2px;
     -fx-border-color: #BB86FC;
 }
 
-/* Button styling */
+/* Shared label style */
+.label {
+    -fx-text-fill: #E0E0E0;
+    -fx-font-size: 14px;
+}
+
+/* Shared button base style */
 .button {
     -fx-background-color: #1E1E1E;
     -fx-text-fill: #BB86FC;
@@ -20,56 +27,275 @@
     -fx-background-color: #333333;
 }
 
-/* Settings Button (gear icon glow) */
-.settings-button {
-    -fx-background-color: transparent;
-    -fx-effect: dropshadow(gaussian, rgba(50, 100, 200, 1.0), 15, 0.8, 0, 0);
-    -fx-background-radius: 3;
-}
-
-/* Label styling */
-.label {
-    -fx-text-fill: #E0E0E0;
-    -fx-font-size: 14px;
-}
-
 /* TextField styling */
 .text-field {
     -fx-background-color: #1E1E1E;
-    -fx-text-fill: #E0E0E0;
-    -fx-prompt-text-fill: #888888;
+    -fx-text-fill: #BB86FC;
+    -fx-prompt-text-fill: #BB86FC;
     -fx-background-insets: 0;
     -fx-background-radius: 5;
     -fx-padding: 5;
 }
 
-/* Memory Bar styling */
-.memory-bar {
-    -fx-accent: #4CAF50; /* Green for used memory */
+
+/* ---------------------- HOMEPAGE ---------------------- */
+
+/* The HomePage root pane (no border here—you get your one purple border from the outerPane) */
+.home-page {
+    -fx-background-color: #121212;
 }
 
-/* Deletion Box styling */
+/* The VBox that holds all game labels */
+.home-page .game-list {
+    -fx-spacing: 10;
+    -fx-padding: 10;
+    -fx-background-color: #2A2A2A;
+}
+
+/* Each game label inside that list */
+.home-page .game-label {
+    -fx-text-fill: #BB86FC;
+    -fx-font-size: 16px;
+    -fx-padding: 5;
+}
+
+/* The ScrollPane around the list */
+.home-page .scroll-pane {
+    -fx-background-color: transparent;
+    -fx-border-width: 0;
+}
+.home-page .scroll-pane .viewport {
+    -fx-background-color: #2A2A2A;
+}
+
+/* The bottom bar containing the MemorySection */
+.home-page .bottom-bar {
+    -fx-padding: 10;
+    -fx-alignment: center;
+}
+
+
+
+/* ---------------------- DELETION LIST ---------------------- */
+
+/* Scroll container background */
 .deletion-box {
-    -fx-background-color: #2E2E2E; /* Slightly grey background */
+    -fx-background-color: #2E2E2E;
     -fx-padding: 10;
     -fx-border-radius: 5;
 }
 
-/* Deletion Game styling */
+/* Individual game entries */
 .deletion-game {
-    -fx-text-fill: #E0E0E0;
+    -fx-text-fill: #BB86FC;
     -fx-font-size: 14px;
     -fx-padding: 5;
     -fx-background-color: transparent;
 }
-
-.window-button {
+/* Make the ScrollPane container transparent */
+.scroll-pane {
     -fx-background-color: transparent;
-    -fx-text-fill: white;
+    -fx-background-insets: 0;
+}
+
+/* Style the viewport (the area that shows your gameList) */
+.scroll-pane .viewport {
+    -fx-background-color: #2A2A2A;  /* or #2E2E2E, whatever your game-list bg is */
+    -fx-background-insets: 0;
+}
+
+/* ---------------------- TITLE BAR ---------------------- */
+.title-bar {
+    -fx-background-color: #1E1E1E;
+    -fx-padding: 5 10;
+    -fx-spacing: 10;
+    -fx-alignment: center-left;
+    -fx-min-height: 30px;
+    -fx-pref-height: 30px;
+    -fx-max-height: 30px;
+}
+
+.title-bar .title-label {
+    -fx-text-fill: #BB86FC;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+.title-bar .window-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #BB86FC;
     -fx-font-size: 12px;
+    -fx-padding: 5px;
+}
+
+.title-bar .window-button:hover {
+    -fx-background-color: rgba(255,255,255,0.2);
+}
+
+
+/* ---------------------- MEMORY SECTION ---------------------- */
+
+/* Container for the label + bar + button */
+.memory-section {
+    -fx-spacing: 5;
     -fx-padding: 5;
 }
 
-.window-button:hover {
-    -fx-background-color: rgba(255, 255, 255, 0.2);
+/* Label above the bar */
+.memory-section .total-storage-label {
+    -fx-text-fill: #BB86FC;
+    -fx-font-size: 14px;
 }
+
+/* The progress bar showing used memory */
+.memory-section .memory-bar {
+    -fx-accent: #4CAF50;
+}
+
+/* The Calculate button */
+.memory-section .calculate-button {
+    -fx-font-size: 16px;
+    -fx-padding: 10px 20px;
+    -fx-text-fill: #BB86FC;
+}
+
+/* ---------------------- MEMORY BAR POPUP ---------------------- */
+
+/* Outer pane */
+.memory-bar-popup {
+    -fx-pref-width: 300px;
+    -fx-pref-height: 20px;
+}
+
+/* Full used‑memory region (green) */
+.memory-bar-popup .green-bar {
+    -fx-background-color: #4CAF50;
+}
+
+/* Freed‑memory overlay (purple) */
+.memory-bar-popup .purple-overlay {
+    -fx-background-color: #BB86FC;
+}
+
+/* Threshold line (black) */
+.memory-bar-popup .threshold-line {
+    -fx-background-color: black;
+    -fx-pref-width: 2px;
+}
+
+/* ---------------------- SETTINGS PAGE ---------------------- */
+
+/* The main BorderPane for the settings scene */
+.settings-page {
+    -fx-padding: 20;
+    -fx-alignment: center;
+    -fx-spacing: 10;
+}
+
+/* Title at the top of the settings page */
+.settings-page .settings-title {
+    -fx-text-fill: #BB86FC;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+}
+
+/* The TextField for threshold input */
+.settings-page .threshold-input {
+    -fx-prompt-text-fill: #888888;
+    -fx-max-width: 200px;
+}
+
+/* The ComboBox for unit selection */
+.settings-page .unit-combo {
+    -fx-max-width: 100px;
+}
+
+/* Buttons on the settings page (Back/Save) */
+.settings-page .nav-button,
+.settings-page .save-button {
+    -fx-font-size: 14px;
+    -fx-text-fill: #BB86FC;
+    -fx-background-color: transparent;
+    -fx-padding: 8px 16px;
+}
+
+.settings-page .nav-button:hover,
+.settings-page .save-button:hover {
+    -fx-background-color: rgba(255,255,255,0.2);
+}
+
+/* Used for steam ID and selected directory labels */
+.settings-label {
+    -fx-text-fill: #BB86FC;
+    -fx-font-size: 14px;
+}
+
+
+/* ---------------------- SETTINGS PAGE (ComboBox) ---------------------- */
+
+/* Base styling for the ComboBox control */
+.settings-page .unit-combo {
+    -fx-background-color: #1E1E1E;
+    -fx-border-color: #333333;
+    -fx-border-radius: 5;
+    -fx-padding: 0 5 0 5;
+    -fx-text-fill: #BB86FC;           /* purple text */
+    -fx-font-size: 14px;
+}
+
+/* The arrow‐button on the right */
+.settings-page .unit-combo .arrow-button {
+    -fx-background-color: transparent;
+}
+
+/* The little arrow graphic */
+.settings-page .unit-combo .arrow {
+    -fx-shape: "M0,0 L1,0 L0.5,1 Z";
+    -fx-background-color: #BB86FC;    /* purple arrow */
+}
+
+/* The popup list that appears when you click */
+.settings-page .unit-combo .list-view {
+    -fx-background-color: #1E1E1E;    /* dark background */
+    -fx-border-color: #333333;
+    -fx-border-radius: 5;
+}
+
+/* Each cell (item) in that list */
+.settings-page .unit-combo .list-cell {
+    -fx-text-fill: #BB86FC;           /* purple text */
+    -fx-background-color: transparent;
+}
+
+/* Hover and selection feedback */
+.settings-page .unit-combo .list-cell:hover {
+    -fx-background-color: #333333;
+}
+.settings-page .unit-combo .list-cell:selected {
+    -fx-background-color: #444444;
+}
+
+/* ---------------------- SETTINGS PANEL ---------------------- */
+
+/* The little gear‑icon panel on the HomePage */
+.settings-panel {
+    -fx-alignment: top-right;
+    -fx-spacing: 10;
+    -fx-padding: 5;
+}
+
+/* The gear icon button itself */
+.settings-panel .settings-button {
+    /* already styled globally, but you can override here if needed */
+}
+
+/* Memory bar popup styling */
+.memory-popup {
+    -fx-background-color: #1E1E1E;
+    -fx-border-color: #333333;
+    -fx-border-radius: 5;
+    -fx-padding: 5;
+}
+
+
+

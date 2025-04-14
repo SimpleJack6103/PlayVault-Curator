@@ -10,47 +10,77 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
+/**
+ * MemorySection displays current memory usage stats and provides a button
+ * to trigger game deletion suggestions.
+ * <p>
+ * Located at the bottom of the {@link HomePage}, this component contains:
+ * <ul>
+ *   <li>A label showing "used / total" GB storage,</li>
+ *   <li>A green progress bar visualizing that usage,</li>
+ *   <li>A "Calculate" button that triggers an action (e.g. generate suggestions).</li>
+ * </ul>
+ * <p>
+ * All styling is controlled via the "dark-theme.css" stylesheet.
+ */
 public class MemorySection extends VBox {
     private Label totalStorageLabel;
     private ProgressBar memoryBar;
     private Button calculateButton;
 
+    /**
+     * Constructs a MemorySection with placeholder values.
+     * The progress bar starts at 60% (30 GB / 50 GB).
+     * <p>
+     * TODO: Hook up to real data.
+     */
     public MemorySection() {
-        // Create a label for memory usage details.
         totalStorageLabel = new Label("Total Storage: 30.0 GB / 50.0 GB");
-        totalStorageLabel.setStyle("-fx-text-fill: #E0E0E0; -fx-font-size: 14px;");
+        totalStorageLabel.getStyleClass().add("label");
 
-        // Create a progress bar (example: 60% used), styled and allowed to expand.
         memoryBar = new ProgressBar(0.6);
-        memoryBar.setStyle("-fx-accent: #4CAF50;");
+        memoryBar.getStyleClass().add("memory-bar");
         memoryBar.setMaxWidth(Double.MAX_VALUE);
 
-        // Create a larger calculate button; adjusting font size and padding.
         calculateButton = new Button("Calculate");
-        calculateButton.setStyle("-fx-font-size: 16px; -fx-padding: 10px 20px;");
-        calculateButton.setMinWidth(120);
-        calculateButton.setOnAction(e -> System.out.println("Calculating..."));
+        calculateButton.getStyleClass().add("calculate-button");
+        calculateButton.setOnAction(e -> {
+            System.out.println("Calculating...");
+            // TODO: Connect this to the algorithm team’s logic
+        });
 
-        // Assemble an HBox with the progress bar and the calculate button.
-        HBox barAndButtonContainer = new HBox(10);
-        barAndButtonContainer.setAlignment(Pos.CENTER);
-        barAndButtonContainer.getChildren().add(memoryBar);
-
-        // Insert a spacer to let the progress bar expand and push the button to the right.
-        Region spacer = new Region();
-        HBox.setHgrow(spacer, Priority.ALWAYS);
-        barAndButtonContainer.getChildren().add(spacer);
-
-        barAndButtonContainer.getChildren().add(calculateButton);
+        HBox barAndButton = new HBox(10);
+        barAndButton.setAlignment(Pos.CENTER);
+        barAndButton.getChildren().addAll(memoryBar, new Region(), calculateButton);
+        HBox.setHgrow(barAndButton.getChildren().get(1), Priority.ALWAYS);
         HBox.setHgrow(memoryBar, Priority.ALWAYS);
 
-        // Arrange the label above the horizontal bar.
-        getChildren().addAll(totalStorageLabel, barAndButtonContainer);
+        getChildren().addAll(totalStorageLabel, barAndButton);
         setSpacing(5);
         setPadding(new Insets(5));
+        getStyleClass().add("memory-section");
     }
 
+    /**
+     * @return the "Calculate" button so its action can be overridden externally if needed.
+     */
     public Button getCalculateButton() {
         return calculateButton;
     }
+
+    /**
+     * Updates the label and progress bar based on actual memory usage.
+     *
+     * @param usedGB  amount of memory currently used (in gigabytes)
+     * @param totalGB total available memory (in gigabytes)
+     */
+    public void updateStorageDisplay(double usedGB, double totalGB) {
+        totalStorageLabel.setText(String.format("Total Storage: %.1f GB / %.1f GB", usedGB, totalGB));
+        memoryBar.setProgress(usedGB / totalGB);
+    }
 }
+
+
+
+
+

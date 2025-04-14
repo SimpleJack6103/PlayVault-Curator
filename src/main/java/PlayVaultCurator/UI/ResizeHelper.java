@@ -5,12 +5,25 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 
+/**
+ * ResizeHelper enables manual resizing of undecorated JavaFX windows.
+ * <p>
+ * It uses mouse position to detect if you're near an edge or corner and
+ * changes the cursor accordingly, resizing the window when dragged.
+ * <p>
+ * This is used in {@link Main} on the outer container.
+ */
 public class ResizeHelper {
     private static final int RESIZE_MARGIN = 5;
 
+    /**
+     * Adds resize detection and resizing logic to a root region of the stage.
+     *
+     * @param stage the stage to resize
+     * @param root  the root region that receives the mouse events
+     */
     public static void addResizeListener(Stage stage, Region root) {
         root.setOnMouseMoved(event -> {
-            // Detect if the mouse is within the resize margin
             if (isMouseWithinResizeMargin(event, stage)) {
                 root.setCursor(getCursorForEdge(event, stage));
             } else {
@@ -82,7 +95,6 @@ public class ResizeHelper {
         double width = stage.getWidth();
         double height = stage.getHeight();
 
-        // Return true if the mouse is within the resize margin
         return (mouseX < RESIZE_MARGIN || mouseX > width - RESIZE_MARGIN ||
                 mouseY < RESIZE_MARGIN || mouseY > height - RESIZE_MARGIN);
     }
@@ -107,10 +119,3 @@ public class ResizeHelper {
         else return Cursor.S_RESIZE;
     }
 }
-
-
-
-
-
-
-

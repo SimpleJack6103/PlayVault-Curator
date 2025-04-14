@@ -5,64 +5,87 @@ import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.Region;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
+/**
+ * A custom title bar that replaces the default window decorations.
+ * <p>
+ * Provides:
+ * <ul>
+ *   <li>Application title text,</li>
+ *   <li>Minimize, maximize/restore, and close buttons,</li>
+ *   <li>Click‑and‑drag anywhere on the bar (except buttons) to move the window.</li>
+ * </ul>
+ * All visual styling (colors, padding, hover effects) is handled by CSS classes
+ * defined in <code>dark-theme.css</code>.
+ * </p>
+ */
 public class TitleBar extends HBox {
-    private double dragOffsetX = 0;
-    private double dragOffsetY = 0;
-    private static final int TITLE_BAR_HEIGHT = 30;
 
+    /**
+     * Constructs the TitleBar and hooks up window control actions.
+     *
+     * @param stage the primary {@link Stage} that this title bar will control
+     */
     public TitleBar(Stage stage) {
-        // Fix the height
-        setMinHeight(TITLE_BAR_HEIGHT);
-        setPrefHeight(TITLE_BAR_HEIGHT);
-        setMaxHeight(TITLE_BAR_HEIGHT);
+        // Apply CSS class for background, size, padding, etc.
+        getStyleClass().add("title-bar");
 
-        setPadding(new Insets(5, 10, 5, 10));
-        setSpacing(10);
-        setStyle("-fx-background-color: #1E1E1E;");
         setAlignment(Pos.CENTER_LEFT);
+        setSpacing(10);
+        setPadding(new Insets(5));
+        prefWidthProperty().bind(stage.widthProperty());
 
-        // Title label on the left
+        // Title label (CSS‐styled)
         Label title = new Label("PlayVault Curator");
-        title.setStyle("-fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold;");
+        title.getStyleClass().add("title-label");
 
-        // Spacer to push buttons to the right
+        // Spacer pushes the buttons to the right edge
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
 
-        // Minimize button
-        Button minimizeButton = new Button("_");
-        minimizeButton.getStyleClass().add("window-button");
-        minimizeButton.setOnAction(e -> stage.setIconified(true));
-
-        // Maximize button
+        // Window control buttons
+        Button minimizeButton = new Button("–");
         Button maximizeButton = new Button("⬜");
-        maximizeButton.getStyleClass().add("window-button");
-        maximizeButton.setOnAction(e -> stage.setMaximized(!stage.isMaximized()));
+        Button closeButton    = new Button("X");
 
-        // Close button
-        Button closeButton = new Button("X");
-        closeButton.getStyleClass().add("window-button");
-        closeButton.setOnAction(e -> stage.close());
+        // Assign CSS class and hand cursor
+        for (Button btn : new Button[]{minimizeButton, maximizeButton, closeButton}) {
+            btn.getStyleClass().add("window-button");
+            btn.setCursor(Cursor.HAND);
+        }
+
+        // Hook up button actions
+        minimizeButton.setOnAction(e -> stage.setIconified(true));
+        maximizeButton.setOnAction(e -> stage.setMaximized(!stage.isMaximized()));
+        closeButton   .setOnAction(e -> stage.close());
 
         getChildren().addAll(title, spacer, minimizeButton, maximizeButton, closeButton);
 
-        // Entire TitleBar (except buttons) is draggable
+        // Enable click‑and‑drag window moving
+        final Delta dragDelta = new Delta();
         setOnMousePressed(e -> {
-            dragOffsetX = e.getSceneX();
-            dragOffsetY = e.getSceneY();
-            setCursor(Cursor.MOVE);
+            dragDelta.x = e.getSceneX();
+            dragDelta.y = e.getSceneY();
         });
         setOnMouseDragged(e -> {
-            stage.setX(e.getScreenX() - dragOffsetX);
-            stage.setY(e.getScreenY() - dragOffsetY);
+            if (!stage.isMaximized()) {
+                stage.setX(e.getScreenX() - dragDelta.x);
+                stage.setY(e.getScreenY() - dragDelta.y);
+            }
         });
-        setOnMouseReleased(e -> setCursor(Cursor.DEFAULT));
+    }
+
+    /**
+     * Helper class to store mouse offset values during dragging.
+     */
+    private static class Delta {
+        double x, y;
     }
 }
+
+
+
+
 
