@@ -3,6 +3,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 
 public class SteamAPI {
     // API key for all requests
@@ -97,10 +101,13 @@ public class SteamAPI {
         String inputLine;
         while ((inputLine = in.readLine()) != null) {
             responseBuilder.append(inputLine);
-            responseBuilder.append('\n');
+            //responseBuilder.append('\n');
         }
         in.close();
-        return responseBuilder.toString();
+        String newString = responseBuilder.toString();
+        // Strip leading {
+        String listofGames = newString.substring(newString.indexOf("{"));
+        return listofGames;
     }
 
     // Methods to call the API endpoints and return json or xml objects
@@ -122,14 +129,20 @@ public class SteamAPI {
         return executeRequest(url.toString());
     }
 
-    public String getRecentlyPlayedGames() throws IOException {
+    public Response getRecentlyPlayedGames() throws IOException {
         String baseUrl = "https://api.steampowered.com/IPlayerService/GetRecentlyPlayedGames/v1/";
         StringBuilder url = new StringBuilder(baseUrl + "?key=" + apiKey + "&steamid=" + steamId + "&format=" + responseFormat);
         if (count > 0) {
             url.append("&count=");
             url.append(count);
         }
-        return executeRequest(url.toString());
+        String newURL = executeRequest(url.toString());
+        JsonObject someObject = JsonParser.parseString(newURL).getAsJsonObject();
+        JsonObject respObject = someObject.getAsJsonObject("response");
+        Gson gson = new Gson();
+        Response response = gson.fromJson(respObject, Response.class);
+
+        return response;
     }
 
     // Response classes for each endpoint. These currently wrap the raw response,

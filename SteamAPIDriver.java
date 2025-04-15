@@ -18,19 +18,25 @@ public class SteamAPIDriver {
 
         try {
             // Call the API endpoints and print the responses.
-            String userStatsResponse = steamApi.getUserStatsForGame();
-            System.out.println("User Stats for Game:");
-            System.out.println(userStatsResponse);
-            System.out.println("--------------------------------------------------");
+            // userStatsResponse = steamApi.getUserStatsForGame();
+            //System.out.println("User Stats for Game:");
+            //System.out.println(userStatsResponse);
+            //System.out.println("--------------------------------------------------");
 
             //String ownedGamesResponse = steamApi.getOwnedGames();
             //System.out.println("Owned Games:");
             //System.out.println(ownedGamesResponse);
             //System.out.println("--------------------------------------------------");
 
-            String recentlyPlayedResponse = steamApi.getRecentlyPlayedGames();
+            Response recentlyPlayedResponse = steamApi.getRecentlyPlayedGames();
             System.out.println("Recently Played Games:");
-            System.out.println(recentlyPlayedResponse);
+            System.out.println("Total Games:" + recentlyPlayedResponse.getTotal_count());
+            for(Game game : recentlyPlayedResponse.getGames()){
+                System.out.println("Game: " + game.getName() 
+                + " (AppID: " + game.getAppid() + ")"
+                + " (Playtime Last 2 Weeks: " + game.getPlaytime_2weeks() + ")"
+                + " (Playtime Forever: " + game.getPlaytime_forever() + ")");
+            }
             System.out.println("--------------------------------------------------");
 
         } catch (IOException e) {
