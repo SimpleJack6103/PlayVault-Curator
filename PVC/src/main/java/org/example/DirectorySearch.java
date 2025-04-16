@@ -90,8 +90,8 @@ public class DirectorySearch {
             BasicFileAttributes attrs = Files.readAttributes(filePath, BasicFileAttributes.class); //read in attrs
             String fileName = f_type.getName();
             String fileType = getExtension(filePath);
-            long fileSize = f_type.length();
-            String lastAccessed = new SimpleDateFormat("MM-dd-yyyy  HH:mm:ss").format(attrs.lastAccessTime().toMillis());
+           //  long fileSize = f_type.length();
+           // String lastAccessed = new SimpleDateFormat("MM-dd-yyyy  HH:mm:ss").format(attrs.lastAccessTime().toMillis());
             if (fileType.equals("vdf") && fileName.equals("libraryfolders.vdf")) {
 
                 // Read file contents as a string
