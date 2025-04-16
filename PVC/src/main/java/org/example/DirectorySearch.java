@@ -24,6 +24,7 @@ public class DirectorySearch {
 
         System.out.println("Searching in directory: " + directory);
         searchFiles(directory);
+        //searchSteamFolder(directory);
     }
 
     //search for files given a directory
@@ -33,6 +34,20 @@ public class DirectorySearch {
             for (File file : files) {
                 if (file.isFile()) {
                     typeLookup(file);
+                } else if (file.isDirectory()) {
+                    searchFiles(file);
+                }
+            }
+        }
+    }
+
+    //search for steam files given a directory
+    public static void searchSteamFolder(File directory) {
+        File[] files = directory.listFiles();
+        if (files != null) {
+            for (File file : files) {
+                if (file.isFile()) {
+                    steamLookup(file);
                 } else if (file.isDirectory()) {
                     searchFiles(file);
                 }
@@ -65,6 +80,31 @@ public class DirectorySearch {
         }
         catch(Exception e){
             System.out.println("Error retrieving file attributes for " + f_type.getAbsolutePath());
+        }
+    }
+
+    //checks steam file
+    public static String steamLookup(File f_type){
+        try {
+            Path filePath = f_type.toPath();  // fetch path
+            BasicFileAttributes attrs = Files.readAttributes(filePath, BasicFileAttributes.class); //read in attrs
+            String fileName = f_type.getName();
+            String fileType = getExtension(filePath);
+            long fileSize = f_type.length();
+            String lastAccessed = new SimpleDateFormat("MM-dd-yyyy  HH:mm:ss").format(attrs.lastAccessTime().toMillis());
+            if (fileType.equals("vdf") && fileName.equals("libraryfolders.vdf")) {
+
+                // Read file contents as a string
+                String content = Files.readString(filePath);
+                return "\n--- File Contents ---\n" + content;
+            } else {
+                return " "; //file not the target
+            }
+        }
+        catch(Exception e){
+            System.out.println("Error retrieving file attributes for " + f_type.getAbsolutePath());
+            e.printStackTrace();
+            return " ";
         }
     }
 }
