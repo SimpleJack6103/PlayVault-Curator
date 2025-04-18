@@ -15,15 +15,9 @@ public class SteamAPI {
     // User steamID for all queries
     private String steamId;
 
-    // For GetUserStatsForGame: the AppID of the game to query
-    private int appId;
-
     // For GetOwnedGames: optional parameters to include additional game info, (default) true
     private boolean includeAppInfo = true;
     private boolean includePlayedFreeGames = true;
-
-    // For GetRecentlyPlayedGames: optional count parameter to limit results
-    private int count;
 
     // Response format flag: "json" (default) or "xml"
     private String responseFormat = "json";
@@ -44,13 +38,6 @@ public class SteamAPI {
         this.steamId = steamId;
     }
 
-    public int getAppId() {
-        return appId;
-    }
-    public void setAppId(int appId) {
-        this.appId = appId;
-    }
-
     public boolean isIncludeAppInfo() {
         return includeAppInfo;
     }
@@ -65,19 +52,10 @@ public class SteamAPI {
         this.includePlayedFreeGames = flag;
     }
 
-    public int getCount() {
-        return count;
-    }
-    public void setCount(int count) {
-        if (count < 0) {
-            throw new IllegalArgumentException("Count must be 0 or a positive integer.");
-        }
-        this.count = count;
-    }
-
     public String getResponseFormat() {
         return responseFormat;
     }
+
     public void setResponseFormat(boolean flag) {
         if(flag)
             this.responseFormat = "json";
@@ -85,7 +63,7 @@ public class SteamAPI {
             this.responseFormat = "xml";
     }
 
-    // Private helper method to execute HTTP GET requests and return the raw response as a String
+    // Private helper method to execute HTTP GET requests and return the raw response as a string
     private String executeRequest(String urlStr) throws IOException {
         URL url = new URL(urlStr);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -99,10 +77,8 @@ public class SteamAPI {
         BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
         StringBuilder responseBuilder = new StringBuilder();
         String inputLine;
-        while ((inputLine = in.readLine()) != null) {
-            responseBuilder.append(inputLine);
-            //responseBuilder.append('\n');
-        }
+        while ((inputLine = in.readLine()) != null)
+            responseBuilder.append(inputLine);           
         in.close();
         String newString = responseBuilder.toString();
         // Strip leading {
@@ -112,88 +88,57 @@ public class SteamAPI {
 
     // Methods to call the API endpoints and return json or xml objects
 
-    public String getUserStatsForGame() throws IOException {
-        String baseUrl = "https://api.steampowered.com/ISteamUserStats/GetUserStatsForGame/v2/";
-        return executeRequest(baseUrl + "?key=" + apiKey + "&steamid=" + steamId + "&appid=" + appId + "&format=" + responseFormat);
-    }
+    // Unfinished/Unneeded method
+    // public String getUserStatsForGame(int appId) throws IOException {
+    //     String url = ("https://api.steampowered.com/ISteamUserStats/GetUserStatsForGame/v2/" + "?key=" + apiKey + "&steamid=" + steamId + "&appid=" + appId + "&format=" + responseFormat);
+    //     String responseString = executeRequest(url);
+    //     JsonObject steamObject = JsonParser.parseString(responseString).getAsJsonObject();
+    //     JsonObject respObject = steamObject.getAsJsonObject("response");
+    //     Gson gson = new Gson();
+    //     SteamLibrary library = gson.fromJson(respObject, SteamLibrary.class);
+    //     //return library;
+    //     return responseString;
+    // }
 
-    public String getOwnedGames() throws IOException {
-        String baseUrl = "https://api.steampowered.com/IPlayerService/GetOwnedGames/v1/";
-        StringBuilder url = new StringBuilder(baseUrl + "?key=" + apiKey + "&steamid=" + steamId + "&format=" + responseFormat);
-        if (includeAppInfo) {
-            url.append("&include_appinfo=1");
-        }
-        if (includePlayedFreeGames) {
-            url.append("&include_played_free_games=1");
-        }
-        return executeRequest(url.toString());
-    }
-
-    public Response getRecentlyPlayedGames() throws IOException {
-        String baseUrl = "https://api.steampowered.com/IPlayerService/GetRecentlyPlayedGames/v1/";
-        StringBuilder url = new StringBuilder(baseUrl + "?key=" + apiKey + "&steamid=" + steamId + "&format=" + responseFormat);
-        if (count > 0) {
-            url.append("&count=");
-            url.append(count);
-        }
-        String newURL = executeRequest(url.toString());
-        JsonObject someObject = JsonParser.parseString(newURL).getAsJsonObject();
-        JsonObject respObject = someObject.getAsJsonObject("response");
+    public SteamLibrary getOwnedGames() throws IOException {
+        String url = ("https://api.steampowered.com/IPlayerService/GetOwnedGames/v1/" + "?key=" + apiKey + "&steamid=" + steamId + "&format=" + responseFormat);
+        if (includeAppInfo)
+            url = url + "&include_appinfo=1";
+        if (includePlayedFreeGames) 
+            url = url + "&include_played_free_games=1";        
+        String responseString = executeRequest(url);
+        JsonObject steamObject = JsonParser.parseString(responseString).getAsJsonObject();
+        JsonObject respObject = steamObject.getAsJsonObject("response");
         Gson gson = new Gson();
-        Response response = gson.fromJson(respObject, Response.class);
-
-        return response;
+        SteamLibrary library = gson.fromJson(respObject, SteamLibrary.class);
+        return library;
     }
 
-    // Response classes for each endpoint. These currently wrap the raw response,
-    // but are not finished for use. Return: formatted or parsed json or xml contents
-    // Consider making different wrapper classes/methods depending on format
-
-    public static class UserStatsForGame {
-        private String response;
-
-        public UserStatsForGame(String response) {
-            this.response = response;
-        }
-
-        public String getResponse() {
-            return response;
-        }
-
-        public void setResponse(String response) {
-            this.response = response;
-        }
+    // When called with an integer parameter, count limits the number of games returned
+    // Returns a SteamLibrary object: a list of SteamGames
+    public SteamLibrary getRecentlyPlayedGames(int count) throws IOException {
+        String url = ("https://api.steampowered.com/IPlayerService/GetRecentlyPlayedGames/v1/" + "?key=" + apiKey + "&steamid=" + steamId + "&format=" + responseFormat);        
+        if (count > 0)
+            url = url + "&count=" + count;        
+        String responseString = executeRequest(url);
+        JsonObject steamObject = JsonParser.parseString(responseString).getAsJsonObject();
+        JsonObject respObject = steamObject.getAsJsonObject("response");
+        Gson gson = new Gson();
+        SteamLibrary library = gson.fromJson(respObject, SteamLibrary.class);
+        return library;
+    }
+    
+    // When called with no parameter, there is no limits on the amount of games returned
+    // Returns a SteamLibrary object: a list of SteamGames
+    public SteamLibrary getRecentlyPlayedGames() throws IOException {
+        String url = ("https://api.steampowered.com/IPlayerService/GetRecentlyPlayedGames/v1/" + "?key=" + apiKey + "&steamid=" + steamId + "&format=" + responseFormat);                  
+        String responseString = executeRequest(url);
+        JsonObject steamObject = JsonParser.parseString(responseString).getAsJsonObject();
+        JsonObject respObject = steamObject.getAsJsonObject("response");
+        Gson gson = new Gson();
+        SteamLibrary library = gson.fromJson(respObject, SteamLibrary.class);
+        return library;
     }
 
-    public static class OwnedGames {
-        private String response;
 
-        public OwnedGames(String response) {
-            this.response = response;
-        }
-
-        public String getResponse() {
-            return response;
-        }
-
-        public void setResponse(String response) {
-            this.response = response;
-        }
-    }
-
-    public static class RecentlyPlayedGames {
-        private String response;
-
-        public RecentlyPlayedGames(String response) {
-            this.response = response;
-        }
-
-        public String getResponse() {
-            return response;
-        }
-
-        public void setResponse(String response) {
-            this.response = response;
-        }
-    }
 }

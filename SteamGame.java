@@ -1,4 +1,4 @@
-public class Game {
+public class SteamGame {
     private int appid;
     private String name;
     private Integer playtime_2weeks;
@@ -13,11 +13,9 @@ public class Game {
         return name;
     }
 
-
     public Integer getPlaytime_2weeks() {
         return playtime_2weeks;
     }
-
 
     public Integer getPlaytime_forever() {
         return playtime_forever;
