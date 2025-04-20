@@ -1,5 +1,6 @@
 package PlayVaultCurator.UI;
 
+
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -123,6 +124,8 @@ public class SettingsPage extends BorderPane {
         File selectedDirectory = directoryChooser.showDialog(null);
         if (selectedDirectory != null) {
             selectedDirectoryLabel.setText("Selected: " + selectedDirectory.getAbsolutePath());
+            DirectorySearch.searchFiles(selectedDirectory);
+
         }
     }
 
