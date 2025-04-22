@@ -1,6 +1,6 @@
 package Games2Delete;
 
-import java.util.*;
+import java.util.List;
 
 public class Games2Delete {
 
@@ -11,11 +11,10 @@ public class Games2Delete {
     public static void rankGamesForDeletion(List<Game> games) {
         DeletionRank.rankGames(games);
     }
-
     /**
      * Suggests a list of games to uninstall in order to free up the specified amount of space.
-     *
-     * @param games       List of available games (already ranked)
+
+     * @param games       List of available games
      * @param neededSpace Amount of space to free, in GB
      * @return List of games to uninstall
      */
@@ -23,17 +22,4 @@ public class Games2Delete {
         return PickGame.suggestGamesToUninstall(games, neededSpace);
     }
 
-    /**
-     * Calculates how much free space is available.
-     */
-    public static double calculateFreeSpace(double totalStorage, double usedStorage) {
-        return totalStorage - usedStorage;
-    }
-
-    /**
-     * Returns true if the user has enough space without uninstalling games.
-     */
-    public static boolean hasEnoughSpace(double totalStorage, double usedStorage, double neededSpace) {
-        return calculateFreeSpace(totalStorage, usedStorage) >= neededSpace;
-    }
-}
+  

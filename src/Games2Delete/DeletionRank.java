@@ -16,23 +16,20 @@ public class DeletionRank {
             double maxEfficiency = games.stream().mapToDouble(g -> g.getTotalPlaytime() / g.getGameSize()).max().orElse(1);
             double efficiencyScore = normalize(game.getTotalPlaytime() / game.getGameSize(), minEfficiency, maxEfficiency, true);
             // w = weight of each factor
-            double wEfficiency = 0.30;
-            double wDaysSinceLastPlayed = 0.25;
+            double wEfficiency = 0.35;
+            double wDaysSinceLastPlayed = 0.30;
             double wPlaytime = 0.20;
             double wSize = 0.15;
-            double wMultiplayer = 0.10;
 
             double sizeScore = normalize(game.getGameSize(), minSize, maxSize, true);
             double lastPlayedScore = normalize(game.getDaysSinceLastPlayed(), minLastPlayed, maxLastPlayed, false);
             double playtimeScore = normalize(game.getTotalPlaytime(), minPlaytime, maxPlaytime, true);
-            double multiplayerBonus = game.isMultiplayer() ? 1.0 : 0.0;
 
             game.setDeletionRanking(
                     (wEfficiency * efficiencyScore) +
                             (wDaysSinceLastPlayed * lastPlayedScore) +
                             (wPlaytime * playtimeScore) +
-                            (wSize * sizeScore) +
-                            (wMultiplayer * multiplayerBonus)
+                            (wSize * sizeScore)
             );
         });
 

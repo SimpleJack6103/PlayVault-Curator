@@ -5,11 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f503b1be-77dd-4a3d-8082-c61859779574" name="Changes" comment="t">
-      <change afterPath="$PROJECT_DIR$/src/Games2Delete/DeletionRank.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Games2Delete/Game.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Games2Delete/Games2Delete.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Games2Delete/PickGame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Games2Delete/DeletionRank.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Games2Delete/DeletionRank.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Games2Delete/Games2Delete.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Games2Delete/Games2Delete.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
