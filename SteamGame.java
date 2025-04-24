@@ -1,8 +1,8 @@
 public class SteamGame {
     private int appid;
     private String name;
-    private Integer playtime_2weeks;
-    private Integer playtime_forever;
+    private int playtime_2weeks;
+    private int playtime_forever;
 
     // Getters and setters
     public int getAppid() {
@@ -13,11 +13,11 @@ public class SteamGame {
         return name;
     }
 
-    public Integer getPlaytime_2weeks() {
+    public int getPlaytime_2weeks() {
         return playtime_2weeks;
     }
 
-    public Integer getPlaytime_forever() {
+    public int getPlaytime_forever() {
         return playtime_forever;
     }
 
