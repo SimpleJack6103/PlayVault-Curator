@@ -3,7 +3,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
-
+//Old demo, do not reference it
 public class APIdemo {
     private static final String API_KEY = "77825858F6B2685489BAE57E20F32411";
     private static final String STEAM_ID = "76561198061599338";
