@@ -1,8 +1,9 @@
 public class SteamGame {
     private int appid;
     private String name;
-    private int playtime_2weeks;
-    private int playtime_forever;
+    private int playtime_2weeks;  // Playtime is measured in minutes
+    private int playtime_forever; 
+    private long gameSize;        // gameSize is measured in bytes
 
     // Getters and setters
     public int getAppid() {
@@ -21,4 +22,11 @@ public class SteamGame {
         return playtime_forever;
     }
 
+    public long getGameSize(){
+        return gameSize;
+    }
+
+    public void setGameSize(long gameSize){
+        this.gameSize = gameSize;
+    }
 }
