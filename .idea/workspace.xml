@@ -4,14 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fcf03bf2-447b-4841-b898-e666271f2974" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="fcf03bf2-447b-4841-b898-e666271f2974" name="Changes" comment="sfg">
+      <change afterPath="$PROJECT_DIR$/src/main/java/PlayVaultCurator/util/DirectorySearch.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Games2Delete/Games2Delete.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Games2Delete/Games2Delete.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Games2Delete/PickGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Games2Delete/PickGame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/PlayVaultCurator/UI/DeletionList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/PlayVaultCurator/UI/DeletionList.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/PlayVaultCurator/UI/MemorySection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/PlayVaultCurator/UI/MemorySection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/PlayVaultCurator/UI/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/PlayVaultCurator/UI/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/PlayVaultCurator/UI/SettingsPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/PlayVaultCurator/UI/SettingsPage.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -85,6 +82,19 @@
       <option name="presentableId" value="Default" />
       <updated>1745896594274</updated>
     </task>
+    <task id="LOCAL-00001" summary="sfg">
+      <option name="closed" value="true" />
+      <created>1745967569038</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1745967569038</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="sfg" />
+    <option name="LAST_COMMIT_MESSAGE" value="sfg" />
   </component>
 </project>

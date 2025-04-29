@@ -1,19 +1,24 @@
 package PlayVaultCurator.UI;
 
+import PlayVaultCurator.util.DirectorySearch;
+import PlayVaultCurator.util.SettingsManager;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.DirectoryChooser;
 import java.io.File;
-import PlayVaultCurator.util.SettingsManager;
+import java.util.List;
+import Games2Delete.Game;
 
 /**
- * The SettingsPage provides full settings UI where users can:
- *   • Specify a memory threshold (%, GB, or MB),
- *   • Enter their Steam User ID,
- *   • Select the game installation directory,
- *   • Save or discard changes via Back/Save buttons.
+ * The SettingsPage provides the full settings UI where users can:
+ * <ul>
+ *   <li>Specify a memory threshold (percentage, GB, or MB),</li>
+ *   <li>Enter their Steam User ID,</li>
+ *   <li>Select the game installation directory,</li>
+ *   <li>Save or discard changes via Back/Save buttons.</li>
+ * </ul>
  *
  * All controls are styled via CSS classes defined in dark-theme.css.
  */
@@ -90,15 +95,13 @@ public class SettingsPage extends BorderPane {
                 directoryBox,
                 buttonBox
         );
+
         setCenter(settingsContainer);
 
-        // Preload saved settings:
-        double storedThreshold = SettingsManager.getThreshold();
-        if (unitComboBox.getValue().equals("%")) {
-            thresholdInput.setText(String.valueOf((int) (storedThreshold * 100)));
-        } else {
-            thresholdInput.setText(String.valueOf(storedThreshold));
-        }
+        // Preload saved settings.
+        double storedThreshold = SettingsManager.getThreshold();  // stored as a fraction (e.g., 0.70)
+        // We'll show it as a percentage when the unit is "%" (default).
+        thresholdInput.setText(String.valueOf((int)(storedThreshold * 100)));
         steamUserIdInput.setText(SettingsManager.getSteamUserId());
         String savedDirectory = SettingsManager.getGameDirectory();
         if (!savedDirectory.isEmpty()) {
@@ -106,52 +109,53 @@ public class SettingsPage extends BorderPane {
         }
     }
 
+    /**
+     * Opens a DirectoryChooser dialog for the user to select the game installation directory.
+     * After selection, it scans the directory for games and passes the result to Main.
+     */
     private void openDirectoryChooser() {
         DirectoryChooser directoryChooser = new DirectoryChooser();
         directoryChooser.setTitle("Select Game Directory");
         File selectedDirectory = directoryChooser.showDialog(null);
         if (selectedDirectory != null) {
-            String path = selectedDirectory.getAbsolutePath();
-            selectedDirectoryLabel.setText("Selected: " + path);
-            // Immediately persist this selection.
-            SettingsManager.setGameDirectory(path);
+            selectedDirectoryLabel.setText("Selected: " + selectedDirectory.getAbsolutePath());
+            // Optionally, store the chosen directory in SettingsManager.
+            SettingsManager.setGameDirectory(selectedDirectory.getAbsolutePath());
+            // Scan the selected directory for games.
+            List<Game> scannedGames = DirectorySearch.searchFiles(selectedDirectory);
+            // Pass the scanned games to Main so that HomePage may update its deletion list.
+            Main.setGames(scannedGames);
         }
     }
 
+    /**
+     * Reads and validates user inputs (threshold, unit, Steam ID), converts the threshold into a normalized fraction,
+     * and persists the new settings. The normalized threshold is then passed to the active MemorySection.
+     */
     private void saveSettings() {
         try {
             double value = Double.parseDouble(thresholdInput.getText().trim());
             String unit = unitComboBox.getValue();
-            double fraction = 0;
-
-            // Get the current MemorySection's total storage.
-            MemorySection memSection = Main.getMemorySection();
-            double totalGB = memSection.getTotalGB();
-
+            double normalizedThreshold;
             if (unit.equals("%")) {
-                fraction = value / 100.0;
-                System.out.println("Threshold set to: " + value + "% (normalized: " + fraction + ")");
+                normalizedThreshold = value / 100.0;
             } else if (unit.equals("GB")) {
-                if (totalGB > 0) {
-                    fraction = value / totalGB;
-                }
-                System.out.println("Threshold set to: " + value + " GB (normalized: " + fraction + ")");
-            } else if (unit.equals("MB")) {
-                if (totalGB > 0) {
-                    fraction = (value / 1024.0) / totalGB;
-                }
-                System.out.println("Threshold set to: " + value + " MB (normalized: " + fraction + ")");
+                // Get the total storage capacity from MemorySection.
+                double totalGB = Main.getMemorySection().getTotalGB();
+                normalizedThreshold = totalGB > 0 ? value / totalGB : 0;
+            } else { // "MB"
+                double totalGB = Main.getMemorySection().getTotalGB();
+                normalizedThreshold = totalGB > 0 ? (value / 1024.0) / totalGB : 0;
             }
-
             String steamUserId = steamUserIdInput.getText().trim();
-            System.out.println("Steam ID: " + steamUserId);
-            // Save the Steam ID.
+
+            // Update the MemorySection's threshold so that the new setting takes effect immediately.
+            Main.getMemorySection().setThreshold(normalizedThreshold);
+            // Persist the Steam User ID.
             SettingsManager.setSteamUserId(steamUserId);
 
-            // Update the MemorySection's threshold.
-            Main.getMemorySection().setThreshold(fraction);
-
-            // If you also want to persist other changes immediately, add additional calls.
+            System.out.println("Threshold set to: " + normalizedThreshold);
+            System.out.println("Steam ID: " + steamUserId);
         } catch (NumberFormatException ex) {
             System.err.println("Invalid input for memory threshold.");
         }
