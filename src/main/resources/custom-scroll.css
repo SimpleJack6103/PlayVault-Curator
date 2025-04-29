@@ -5,7 +5,7 @@
 }
 
 .scroll-bar:vertical .thumb {
-    -fx-background-color: #BB86FC;
+    -fx-background-color: #BB86FC; /* Vibrant Purple */
     -fx-background-radius: 5;
     -fx-border-radius: 5;
 }
@@ -14,18 +14,9 @@
     -fx-background-color: transparent;
 }
 
-/* Horizontal ScrollBar */
+/* Horizontal ScrollBar (hidden) */
 .scroll-bar:horizontal {
-    -fx-background-color: transparent;
+    -fx-opacity: 0;          /* Make it invisible */
+    -fx-pref-height: 0px;     /* Remove its height */
     -fx-padding: 0;
-}
-
-.scroll-bar:horizontal .thumb {
-    -fx-background-color: #444444;
-    -fx-background-radius: 5;
-    -fx-border-radius: 5;
-}
-
-.scroll-bar:horizontal .track {
-    -fx-background-color: transparent;
 }

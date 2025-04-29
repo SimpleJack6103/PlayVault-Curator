@@ -4,7 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a47d9289-ac2e-4ac1-a58c-f36dd70402e5" name="Changes" comment="t" />
+    <list default="true" id="fcf03bf2-447b-4841-b898-e666271f2974" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/PlayVaultCurator/util/SettingsManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/PlayVaultCurator/DataMapping/SteamGameConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/PlayVaultCurator/DataMapping/SteamGameConverter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/PlayVaultCurator/UI/DeletionList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/PlayVaultCurator/UI/DeletionList.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/PlayVaultCurator/UI/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/PlayVaultCurator/UI/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/PlayVaultCurator/UI/MemorySection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/PlayVaultCurator/UI/MemorySection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/PlayVaultCurator/UI/SettingsPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/PlayVaultCurator/UI/SettingsPage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/custom-scroll.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/custom-scroll.css" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -20,7 +30,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="Paul" />
+        <entry key="$PROJECT_DIR$" value="main" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -28,78 +38,55 @@
   <component name="GitHubPullRequestSearchHistory">{
   &quot;lastFilter&quot;: {
     &quot;state&quot;: &quot;OPEN&quot;,
-    &quot;assignee&quot;: &quot;Gordo66jr&quot;
+    &quot;assignee&quot;: &quot;Douglas9149&quot;
   }
 }</component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/SimpleJack6103/PlayVault-Curator.git&quot;,
-    &quot;accountId&quot;: &quot;1c449c35-4aa9-49f2-a47a-372990b36759&quot;
+    &quot;url&quot;: &quot;https://github.com/SimpleJack6103/PlayVault-Curator&quot;,
+    &quot;accountId&quot;: &quot;52a24e76-6618-4edd-bc05-f36c043d4ac6&quot;
   }
 }</component>
-  <component name="ProblemsViewState">
-    <option name="selectedTabId" value="CurrentFile" />
-  </component>
   <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 8
+  &quot;associatedIndex&quot;: 3
 }</component>
-  <component name="ProjectId" id="2vgl3nbx5SAvnEYTJLvzrUbdZhs" />
+  <component name="ProjectId" id="2wNz05p2pDRrtyCOkEB8QWyS5Jh" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Application.UI.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "temp",
     "kotlin-language-version-configured": "true",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "preferences.lookFeel"
+    "last_opened_file_path": "D:/IntelliJ IDEA Community Edition 2024.3.2.2/javafx-sdk-23.0.2/lib",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2"
   }
 }]]></component>
-  <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/main/java" />
-    </key>
-  </component>
   <component name="RunManager">
-    <configuration default="true" type="JetRunConfigurationType">
+    <configuration name="UI" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="PlayVaultCurator.UI.Main" />
       <module name="PlayVault-Curator" />
+      <option name="VM_PARAMETERS" value="--module-path &quot;D:\IntelliJ IDEA Community Edition 2024.3.2.2\javafx-sdk-23.0.2\lib&quot; --add-modules javafx.controls,javafx.fxml" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
-    </configuration>
-    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
-      <module name="PlayVault-Curator" />
-      <option name="filePath" />
-      <method v="2" />
     </configuration>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="f503b1be-77dd-4a3d-8082-c61859779574" name="Changes" comment="" />
-      <created>1744574400898</created>
+      <changelist id="fcf03bf2-447b-4841-b898-e666271f2974" name="Changes" comment="" />
+      <created>1745896594274</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1744574400898</updated>
+      <updated>1745896594274</updated>
     </task>
     <servers />
-  </component>
-  <component name="Vcs.Log.Tabs.Properties">
-    <option name="TAB_STATES">
-      <map>
-        <entry key="MAIN">
-          <value>
-            <State />
-          </value>
-        </entry>
-      </map>
-    </option>
-  </component>
-  <component name="VcsManagerConfiguration">
-    <MESSAGE value="t" />
-    <option name="LAST_COMMIT_MESSAGE" value="t" />
   </component>
 </project>

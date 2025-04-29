@@ -1,3 +1,4 @@
+/*
 package PlayVaultCurator.DataMapping;
 
 import PlayVaultCurator.API.SteamGame;
@@ -9,20 +10,10 @@ import java.nio.file.Path;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.*;
 
-/**
- * Converts SteamGame objects to Games2Delete Game objects,
- * using local directory data (size, last accessed time) when available.
- */
+
 public class SteamGameConverter {
 
-    /**
-     * Converts a list of SteamGames into Games2Delete Game objects
-     * by matching local directory information.
-     *
-     * @param steamGames  List of SteamGame objects from SteamAPI
-     * @param directoryRoot  The root folder where local games are stored
-     * @return A list of Game objects for Games2Delete algorithm
-     */
+
     public static List<Game> convertSteamGamesToGames(List<SteamGame> steamGames, File directoryRoot) {
         Map<String, LocalGameInfo> localGameInfoMap = scanDirectoryForLocalGames(directoryRoot);
 
@@ -104,3 +95,4 @@ public class SteamGameConverter {
         return length;
     }
 }
+*/
