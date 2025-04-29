@@ -1,98 +1,49 @@
-/*
 package PlayVaultCurator.DataMapping;
 
+import PlayVaultCurator.API.SteamAPI;
 import PlayVaultCurator.API.SteamGame;
+import PlayVaultCurator.API.SteamLibrary;
 import Games2Delete.Game;
 
 import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.attribute.BasicFileAttributes;
-import java.util.*;
-
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SteamGameConverter {
 
-
-    public static List<Game> convertSteamGamesToGames(List<SteamGame> steamGames, File directoryRoot) {
-        Map<String, LocalGameInfo> localGameInfoMap = scanDirectoryForLocalGames(directoryRoot);
+    /**
+     * Converts Steam API owned games into your internal Game objects.
+     * Uses the provided steamID to query the API.
+     * Optionally, a local game directory (directoryRoot) may be used to supplement local metadata,
+     * though this example uses default local values if no matching data is found.
+     *
+     * @param steamID the Steam user ID
+     * @param directoryRoot the local game installation directory (can be used for local metadata)
+     * @return a list of Game objects representing the Steam library
+     * @throws IOException if an API call fails
+     */
+    public static List<Game> convertSteamGamesToGames(String steamID, File directoryRoot) throws IOException {
+        SteamAPI steamAPI = new SteamAPI(steamID);
+        // Retrieve the owned games via the Steam API.
+        SteamLibrary library = steamAPI.getOwnedGames();
+        List<SteamGame> steamGames = library.getLibrary();
 
         List<Game> games = new ArrayList<>();
-        long currentTimeMillis = System.currentTimeMillis();
-
+        // For each Steam game, create an internal Game object.
+        // Here we use default values for daysSinceLastPlayed and gameSize since local mapping may not be available.
+        // You could optionally use a local directory scan (for example, via DirectorySearch) to enrich this data.
         for (SteamGame sg : steamGames) {
-            LocalGameInfo info = localGameInfoMap.getOrDefault(
-                    sg.getName(),
-                    new LocalGameInfo(5.0, currentTimeMillis) // Default size: 5GB and "now" if not found
-            );
+            // Default values: if no local metadata is available:
+            int daysSinceLastPlayed = 0;
+            // Convert playtime from minutes to hours.
+            int totalPlaytime = sg.getPlaytime_forever() / 60;
+            // Default game size: if no local metadata exists, default to 5.0 GB.
+            double gameSizeGB = 5.0;
 
-            int daysSinceLastPlayed = calculateDaysSince(info.getLastAccessedMillis(), currentTimeMillis);
-
-            Game g = new Game(
-                    sg.getName(),
-                    info.getSizeGB(),
-                    daysSinceLastPlayed,
-                    sg.getPlaytime_forever() / 60, // Convert minutes to hours
-                    false // Assume not multiplayer
-            );
-
-            games.add(g);
+            Game game = new Game(sg.getName(), gameSizeGB, daysSinceLastPlayed, totalPlaytime, false);
+            games.add(game);
         }
         return games;
     }
-
-    private static int calculateDaysSince(long lastAccessedMillis, long currentTimeMillis) {
-        long diffMillis = currentTimeMillis - lastAccessedMillis;
-        long days = diffMillis / (1000 * 60 * 60 * 24);
-        return (int) days;
-    }
-
-    private static Map<String, LocalGameInfo> scanDirectoryForLocalGames(File rootDir) {
-        Map<String, LocalGameInfo> map = new HashMap<>();
-        scanRecursive(rootDir, map);
-        return map;
-    }
-
-    private static void scanRecursive(File directory, Map<String, LocalGameInfo> map) {
-        if (directory == null || !directory.exists() || !directory.isDirectory()) {
-            return;
-        }
-
-        File[] files = directory.listFiles();
-        if (files == null) return;
-
-        for (File file : files) {
-            if (file.isDirectory()) {
-                try {
-                    Path filePath = file.toPath();
-                    BasicFileAttributes attrs = Files.readAttributes(filePath, BasicFileAttributes.class);
-
-                    double sizeInGB = getFolderSizeInBytes(file) / (1024.0 * 1024.0 * 1024.0);
-                    long lastAccessMillis = attrs.lastAccessTime().toMillis();
-
-                    map.put(file.getName(), new LocalGameInfo(sizeInGB, lastAccessMillis));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-                scanRecursive(file, map); // Recursive search
-            }
-        }
-    }
-
-    private static long getFolderSizeInBytes(File folder) {
-        long length = 0;
-        File[] files = folder.listFiles();
-        if (files != null) {
-            for (File file : files) {
-                if (file.isFile()) {
-                    length += file.length();
-                } else {
-                    length += getFolderSizeInBytes(file); // Recursive
-                }
-            }
-        }
-        return length;
-    }
 }
-*/

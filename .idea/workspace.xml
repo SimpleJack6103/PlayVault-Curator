@@ -5,10 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fcf03bf2-447b-4841-b898-e666271f2974" name="Changes" comment="sfg">
-      <change afterPath="$PROJECT_DIR$/src/main/java/PlayVaultCurator/util/DirectorySearch.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Games2Delete/TestDeletionSuggestions.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/PlayVaultCurator/API/SteamAPI.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/PlayVaultCurator/API/SteamGame.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/PlayVaultCurator/API/SteamLibrary.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/PlayVaultCurator/UI/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/PlayVaultCurator/UI/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/PlayVaultCurator/UI/SettingsPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/PlayVaultCurator/UI/SettingsPage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/PlayVaultCurator/DataMapping/SteamGameConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/PlayVaultCurator/DataMapping/SteamGameConverter.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,6 +56,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Application.TestDeletionSuggestions.executor": "Run",
     "Application.UI.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "temp",
@@ -63,7 +67,20 @@
     "project.structure.side.proportion": "0.2"
   }
 }]]></component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.TestDeletionSuggestions">
+    <configuration name="TestDeletionSuggestions" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Games2Delete.TestDeletionSuggestions" />
+      <module name="javafx-template" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="Games2Delete.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="UI" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="PlayVaultCurator.UI.Main" />
       <module name="javafx-template" />
@@ -72,6 +89,15 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <list>
+      <item itemvalue="Application.UI" />
+      <item itemvalue="Application.TestDeletionSuggestions" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.TestDeletionSuggestions" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -90,7 +116,15 @@
       <option name="project" value="LOCAL" />
       <updated>1745967569038</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="sfg">
+      <option name="closed" value="true" />
+      <created>1745968436545</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1745968436545</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
