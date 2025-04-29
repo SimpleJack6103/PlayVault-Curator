@@ -84,7 +84,8 @@ public class MemorySection extends VBox {
         });
 
         // Layout the progress bar and the button in an HBox.
-        HBox barAndButton = new HBox(10, progressBarContainer, new Region(), calculateButton);
+        HBox spacer = new HBox(); // an empty spacer region
+        HBox barAndButton = new HBox(10, progressBarContainer, spacer, calculateButton);
         barAndButton.setAlignment(Pos.CENTER);
         HBox.setHgrow(progressBarContainer, Priority.ALWAYS);
 
@@ -211,6 +212,25 @@ public class MemorySection extends VBox {
      */
     public double getTotalGB() {
         return currentTotalGB;
+    }
+
+    /**
+     * Returns the current used storage (in GB) calculated from the current directory filter or overall.
+     */
+    public double getCurrentUsageGB() {
+        long totalSpace = 0;
+        long freeSpace = 0;
+        if (directoryFilter != null && directoryFilter.exists() && directoryFilter.isDirectory()) {
+            totalSpace = directoryFilter.getTotalSpace();
+            freeSpace = directoryFilter.getFreeSpace();
+        } else {
+            File[] roots = File.listRoots();
+            for (File root : roots) {
+                totalSpace += root.getTotalSpace();
+                freeSpace += root.getFreeSpace();
+            }
+        }
+        return (totalSpace - freeSpace) / (1024.0 * 1024 * 1024);
     }
 
     public DoubleProperty thresholdProperty() {

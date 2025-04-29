@@ -5,15 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fcf03bf2-447b-4841-b898-e666271f2974" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/PlayVaultCurator/util/SettingsManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/PlayVaultCurator/DataMapping/SteamGameConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/PlayVaultCurator/DataMapping/SteamGameConverter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Games2Delete/Games2Delete.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Games2Delete/Games2Delete.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Games2Delete/PickGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Games2Delete/PickGame.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/PlayVaultCurator/UI/DeletionList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/PlayVaultCurator/UI/DeletionList.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/PlayVaultCurator/UI/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/PlayVaultCurator/UI/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/PlayVaultCurator/UI/MemorySection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/PlayVaultCurator/UI/MemorySection.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/PlayVaultCurator/UI/SettingsPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/PlayVaultCurator/UI/SettingsPage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/custom-scroll.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/custom-scroll.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,7 +60,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "temp",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/IntelliJ IDEA Community Edition 2024.3.2.2/javafx-sdk-23.0.2/lib",
+    "last_opened_file_path": "C:/Users/antbu/IdeaProjects/javafx-sdk-23.0.2/lib",
     "project.structure.last.edited": "Project",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2"
@@ -71,8 +69,8 @@
   <component name="RunManager">
     <configuration name="UI" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="PlayVaultCurator.UI.Main" />
-      <module name="PlayVault-Curator" />
-      <option name="VM_PARAMETERS" value="--module-path &quot;D:\IntelliJ IDEA Community Edition 2024.3.2.2\javafx-sdk-23.0.2\lib&quot; --add-modules javafx.controls,javafx.fxml" />
+      <module name="javafx-template" />
+      <option name="VM_PARAMETERS" value="--module-path &quot;C:\Users\antbu\IdeaProjects\javafx-sdk-23.0.2\lib&quot; --add-modules javafx.controls,javafx.fxml" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>

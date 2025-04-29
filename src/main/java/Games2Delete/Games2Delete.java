@@ -15,9 +15,9 @@ public class Games2Delete {
     }
 
     /**
-     * Suggests a list of games to uninstall to free up specified amount of space.
+     * Suggests a list of games to uninstall to free up the specified amount of space.
      *
-     * @param games List of games with ranked deletion scores
+     * @param games      List of games with ranked deletion scores
      * @param neededSpace Amount of space to free (in GB)
      * @return List of suggested games to uninstall
      */

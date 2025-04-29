@@ -14,7 +14,7 @@ import java.util.List;
 
 /**
  * DeletionList is a scrollable UI container displaying suggested games
- * for deletion. Each game is shown as a label styled as a "deletion-game".
+ * for deletion. Each game is shown as a label styled as "deletion-game".
  *
  * This box is intended to be shown either inside the HomePage or as a
  * visual output when the "Calculate" button is used.
@@ -42,7 +42,6 @@ public class DeletionList extends VBox {
 
         // Create the ScrollPane that will contain the gameList.
         scrollPane = new ScrollPane(gameList);
-        // Hide horizontal scroll bar and always display vertical scroll bar.
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
         scrollPane.setFitToWidth(true);
@@ -57,10 +56,8 @@ public class DeletionList extends VBox {
             System.err.println("Warning: Could not load /css/custom-scroll.css. Make sure it is in the resources folder.");
         }
 
-        // Add a style class for additional CSS targeting if needed.
         scrollPane.getStyleClass().add("deletion-box");
 
-        // Configure the layout.
         setAlignment(Pos.CENTER);
         setPadding(new Insets(20));
         VBox.setVgrow(scrollPane, Priority.ALWAYS);
@@ -73,13 +70,9 @@ public class DeletionList extends VBox {
      * @param games List of Game objects to display.
      */
     public void updateGames(List<Game> games) {
-        // Ensure UI updates occur on the JavaFX Application Thread.
         Platform.runLater(() -> {
-            // Clear out the old entries.
             gameList.getChildren().clear();
-
             if (games != null && !games.isEmpty()) {
-                // Create a new label for each game using getGameName() from Game.
                 for (Game game : games) {
                     Label gameLabel = new Label(game.getGameName());
                     gameLabel.getStyleClass().add("deletion-game");
@@ -87,7 +80,6 @@ public class DeletionList extends VBox {
                     gameList.getChildren().add(gameLabel);
                 }
             } else {
-                // Display a placeholder if no deletion suggestions are available.
                 Label noGameLabel = new Label("No games available for deletion.");
                 noGameLabel.getStyleClass().add("deletion-game");
                 noGameLabel.setMaxWidth(Double.MAX_VALUE);
