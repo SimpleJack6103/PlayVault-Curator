@@ -2,6 +2,9 @@ package PlayVaultCurator.util;
 
 import Games2Delete.Game;
 import java.io.File;
+import java.nio.file.Files;
+import java.util.Scanner;
+import java.nio.file.Path;
 import java.io.IOException;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
@@ -71,5 +74,68 @@ public class DirectorySearch {
             }
         }
         return size;
+    }
+
+
+    /**
+     * Retrieves the file extension from a given file path.
+     *
+     * @param filePath the path of the file.
+     * @return the file extension as a string, or an empty string if no extension is found.
+     */
+    public static String getExtension(Path filePath) {
+        String fileName = filePath.getFileName().toString();
+        int dotIndex = fileName.lastIndexOf('.');
+        return (dotIndex == -1) ? "" : fileName.substring(dotIndex + 1);
+    }
+
+
+    /**
+     * Searches for Steam files within a given directory and its subdirectories.
+     *
+     * @param directory the directory to search within.
+     */
+    public static void searchSteamFolder(File directory) {
+        File[] files = directory.listFiles();
+        if (files != null) {
+            for (File file : files) {
+                if (file.isFile()) {
+                    steamLookup(file);
+                } else if (file.isDirectory()) {
+                    searchFiles(file);
+                }
+            }
+        }
+    }
+
+
+    /**
+     * Checks if a given file is a Steam library file and retrieves its contents if it matches.
+     *
+     * @param f_type the file to check.
+     * @return the contents of the Steam library file as a string, or an empty string if the file does not match.
+     */
+    public static String steamLookup(File f_type){
+        try {
+            Path filePath = f_type.toPath();  // fetch path
+            BasicFileAttributes attrs = Files.readAttributes(filePath, BasicFileAttributes.class); //read in attrs
+            String fileName = f_type.getName();
+            String fileType = getExtension(filePath);
+            //  long fileSize = f_type.length();
+            // String lastAccessed = new SimpleDateFormat("MM-dd-yyyy  HH:mm:ss").format(attrs.lastAccessTime().toMillis());
+            if (fileType.equals("vdf") && fileName.equals("libraryfolders.vdf")) {
+
+                // Read file contents as a string
+                String content = Files.readString(filePath);
+                return "\n--- File Contents ---\n" + content;
+            } else {
+                return " "; //file not the target
+            }
+        }
+        catch(Exception e){
+            System.out.println("Error retrieving file attributes for " + f_type.getAbsolutePath());
+            e.printStackTrace();
+            return " ";
+        }
     }
 }
