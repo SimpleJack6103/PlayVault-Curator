@@ -1,25 +1,20 @@
+// File: PlayVaultCurator/UI/Main.java
 package PlayVaultCurator.UI;
 
+import Games2Delete.Game;
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-
-import java.util.Objects;
 import java.util.List;
-import Games2Delete.Game;
+import java.util.Objects;
 
 public class Main extends Application {
     private static Stage primaryStage;
-    private static final int MIN_WIDTH = 550;
-    private static final int MIN_HEIGHT = 400;
-
-    // The current MemorySection instance; accessible to SettingsPage.
-    private static MemorySection memorySection;
-    // Save the current HomePage so that we can update its games list.
     private static HomePage currentHomePage;
+    private static MemorySection memorySection;
+    private static final int MIN_WIDTH = 550, MIN_HEIGHT = 400;
 
     @Override
     public void start(Stage stage) {
@@ -28,79 +23,58 @@ public class Main extends Application {
         primaryStage.initStyle(StageStyle.UNDECORATED);
         primaryStage.setMinWidth(MIN_WIDTH);
         primaryStage.setMinHeight(MIN_HEIGHT);
-
         switchToHomePage();
         primaryStage.show();
     }
 
     public static void switchToHomePage() {
-        // Create the root layout.
         BorderPane mainLayout = new BorderPane();
         mainLayout.getStyleClass().add("home-page");
-
-        // Add custom title bar.
         TitleBar titleBar = new TitleBar(primaryStage);
         mainLayout.setTop(titleBar);
+        HomePage home = new HomePage();
+        currentHomePage = home;
+        mainLayout.setCenter(home);
+        memorySection = home.getMemorySection();
+        StackPane outer = new StackPane(mainLayout);
+        outer.getStyleClass().add("app-root");
+        Scene scene = new Scene(outer, MIN_WIDTH, MIN_HEIGHT);
 
-        // Create the HomePage.
-        HomePage homePage = new HomePage();
-        currentHomePage = homePage; // Store the reference.
-        mainLayout.setCenter(homePage);
-
-        // Capture the MemorySection instance for use by SettingsPage.
-        memorySection = homePage.getMemorySection();
-
-        // Wrap in an outer container.
-        StackPane outerPane = new StackPane(mainLayout);
-        outerPane.getStyleClass().add("app-root");
-
-        Scene scene = new Scene(outerPane, MIN_WIDTH, MIN_HEIGHT);
+        // ✅ Add both dark-theme and custom-scroll styles
         scene.getStylesheets().add(Objects.requireNonNull(Main.class.getResource("/dark-theme.css")).toExternalForm());
-        primaryStage.setScene(scene);
+        scene.getStylesheets().add(Objects.requireNonNull(Main.class.getResource("/custom-scroll.css")).toExternalForm());
 
-        ResizeHelper.addResizeListener(primaryStage, outerPane);
+        primaryStage.setScene(scene);
+        ResizeHelper.addResizeListener(primaryStage, outer);
     }
 
-    /**
-     * Switches the scene to the SettingsPage.
-     */
     public static void switchToSettingsPage() {
-        // Create a new layout for the settings page.
-        BorderPane settingsLayout = new BorderPane();
-        settingsLayout.getStyleClass().add("home-page");
-
-        // Create the custom title bar.
+        BorderPane layout = new BorderPane();
+        layout.getStyleClass().add("home-page");
         TitleBar titleBar = new TitleBar(primaryStage);
-        settingsLayout.setTop(titleBar);
+        layout.setTop(titleBar);
+        SettingsPage settings = new SettingsPage();
+        layout.setCenter(settings);
+        StackPane outer = new StackPane(layout);
+        outer.getStyleClass().add("app-root");
+        Scene scene = new Scene(outer, MIN_WIDTH, MIN_HEIGHT);
 
-        // Create the SettingsPage.
-        SettingsPage settingsPage = new SettingsPage();
-        settingsLayout.setCenter(settingsPage);
-
-        // Wrap in an outer container.
-        StackPane outerPane = new StackPane(settingsLayout);
-        outerPane.getStyleClass().add("app-root");
-
-        Scene scene = new Scene(outerPane, MIN_WIDTH, MIN_HEIGHT);
+        // ✅ Add both dark-theme and custom-scroll styles
         scene.getStylesheets().add(Objects.requireNonNull(Main.class.getResource("/dark-theme.css")).toExternalForm());
-        primaryStage.setScene(scene);
+        scene.getStylesheets().add(Objects.requireNonNull(Main.class.getResource("/custom-scroll.css")).toExternalForm());
 
-        ResizeHelper.addResizeListener(primaryStage, outerPane);
+        primaryStage.setScene(scene);
+        ResizeHelper.addResizeListener(primaryStage, outer);
     }
 
-    /**
-     * Allows external parts of the application (like DirectorySearch) to update
-     * the list of games in the HomePage.
-     *
-     * @param games List of Game objects to update.
-     */
+    /** Called by SettingsPage **/
     public static void setGames(List<Game> games) {
         if (currentHomePage != null) {
             currentHomePage.setGames(games);
         }
     }
 
-    // Getter for the MemorySection instance.
+    /** Exposed so SettingsPage can fire calculate **/
     public static MemorySection getMemorySection() {
         return memorySection;
     }
@@ -109,6 +83,8 @@ public class Main extends Application {
         launch(args);
     }
 }
+
+
 
 
 

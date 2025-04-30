@@ -1,71 +1,108 @@
+// File: PlayVaultCurator/UI/HomePage.java
 package PlayVaultCurator.UI;
 
 import Games2Delete.Game;
-import Games2Delete.Games2Delete;
+import PlayVaultCurator.util.DirectorySearch;
+import PlayVaultCurator.util.SettingsManager;
+import PlayVaultCurator.util.SuggestionGenerator;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.layout.*;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.Label;
-import javafx.application.Platform;
-
+import javafx.scene.control.*;
+import java.io.File;
 import java.util.List;
 
 /**
  * The main content pane for the application's Home Page.
- * <p>
- * This {@link BorderPane} arranges:
- * <ul>
- *   <li>A {@link SettingsPanel} on the right,</li>
- *   <li>A scrollable list of suggested games (DeletionList) in the center,</li>
- *   <li>A {@link MemorySection} at the bottom.</li>
- * </ul>
  */
 public class HomePage extends BorderPane {
 
     private DeletionList deletionList;
     private MemorySection memorySection;
-    private List<Game> games; // Real list of games injected externally
+    private List<Game> games;
 
-    /**
-     * Constructs the HomePage layout.
-     */
     public HomePage() {
+        // Apply CSS class
         getStyleClass().add("home-page");
         setPadding(new Insets(10));
 
-        // --- Right: Settings panel ---
+        // Right: Settings panel
         SettingsPanel settingsPanel = new SettingsPanel();
+        settingsPanel.getStyleClass().add("settings-panel");
         setRight(settingsPanel);
 
-        // --- Center: DeletionList ---
+        // Center: DeletionList
         deletionList = new DeletionList();
+        deletionList.getStyleClass().add("deletion-list");
         setCenter(deletionList);
 
-        // --- Bottom: Memory section and Calculate button ---
+        // Bottom: MemorySection + Calculate button
         memorySection = new MemorySection();
-        memorySection.setPrefHeight(60);
-
         HBox bottomBar = new HBox(memorySection);
         bottomBar.getStyleClass().add("bottom-bar");
         HBox.setHgrow(memorySection, Priority.ALWAYS);
         setBottom(bottomBar);
 
-        // --- Hook up Calculate Button ---
+        // Calculate logic
         memorySection.getCalculateButton().setOnAction(e -> {
             try {
+                // 1) Load games if not already loaded
+                if (games == null || games.isEmpty()) {
+                    String path = SettingsManager.getGameDirectory();
+                    if (path != null && !path.isEmpty()) {
+                        games = DirectorySearch.searchFiles(new File(path));
+                    }
+                }
+
                 if (games == null || games.isEmpty()) {
                     System.out.println("No games loaded yet.");
                     return;
                 }
 
-                // Rank the games
-                Games2Delete.rankGamesForDeletion(games);
+                // 2) Compute how much needs to be freed
+                double used   = memorySection.getCurrentUsageGB();
+                double total  = memorySection.getTotalGB();
+                double thresh = memorySection.getThreshold() * total;
+                double needed = used - thresh;
 
-                // Suggest games to uninstall to free at least 50 GB
-                List<Game> suggestions = Games2Delete.getSuggestedGamesToUninstall(games, 50.0); // <- neededSpace is 50.0 for now
+                if (needed <= 0) {
+                    deletionList.updateGames(List.of());
+                    System.out.println("Already under threshold.");
+                    return;
+                }
 
-                // Update DeletionList
-                deletionList.updateGames(suggestions);
+                // 3) Generate suggestion sets
+                List<List<Game>> sets = SuggestionGenerator.getSuggestionSets(games, needed, 2);
+                deletionList.updateSuggestionSets(sets);
+
+                // 4) Show MemoryBarPopup for first suggestion set
+                double freedGB = sets.stream()
+                        .findFirst()
+                        .orElse(List.of())
+                        .stream()
+                        .mapToDouble(Game::getSizeGB)
+                        .sum();
+                double usedMB    = used    * 1024;
+                double freedMB   = freedGB * 1024;
+                double desiredMB = thresh  * 1024;
+
+                MemoryBarPopup popup = new MemoryBarPopup(usedMB, freedMB, desiredMB);
+                popup.getStyleClass().add("memory-popup");
+
+                if (!memorySection.getChildren().contains(popup)) {
+                    memorySection.getChildren().add(popup);
+                }
+
+                // Optional: only show popup on hover
+                deletionList.setOnMouseEntered(event -> {
+                    if (!memorySection.getChildren().contains(popup)) {
+                        memorySection.getChildren().add(popup);
+                    }
+                });
+
+                deletionList.setOnMouseExited(event -> {
+                    memorySection.getChildren().remove(popup);
+                });
 
             } catch (Exception ex) {
                 ex.printStackTrace();
@@ -73,25 +110,20 @@ public class HomePage extends BorderPane {
         });
     }
 
-    /**
-     * Injects a real list of games into the HomePage.
-     * @param games list of Game objects
-     */
+    /** Called externally to populate games and trigger calculation. */
     public void setGames(List<Game> games) {
         this.games = games;
+        Platform.runLater(() -> memorySection.getCalculateButton().fire());
     }
 
-    /**
-     * @return the MemorySection (for future expansion)
-     */
     public MemorySection getMemorySection() {
         return memorySection;
     }
 
-    /**
-     * @return the DeletionList (for updating game suggestions)
-     */
     public DeletionList getDeletionList() {
         return deletionList;
     }
 }
+
+
+

@@ -1,32 +1,104 @@
+// File: Games2Delete/Game.java
 package Games2Delete;
 
+/**
+ * Represents a game candidate for deletion, with metadata used to rank it.
+ */
 public class Game {
-    private String gameName;
-    private double gameSize; // in GB
-    private int daysSinceLastPlayed; // days ago
-    private int totalPlaytime; // in hours
-    private boolean isMultiplayer; // true if multiplayer, false if single-player
-    private double deletionRanking; // Computed score for deciding uninstall priority
+    private String name;
+    private double sizeGB;
+    private int daysSinceLastPlayed;
+    private int totalPlaytimeHours;
+    private boolean multiplayer;
+    private double score;
 
-    // Constructor
-    public Game(String gameName, double gameSize, int daysSinceLastPlayed, int totalPlaytime, boolean isMultiplayer) {
-        this.gameName = gameName;
-        this.gameSize = gameSize;
+    public Game(String name, double sizeGB, int daysSinceLastPlayed, int totalPlaytimeHours, boolean multiplayer) {
+        this.name = name;
+        this.sizeGB = sizeGB;
         this.daysSinceLastPlayed = daysSinceLastPlayed;
-        this.totalPlaytime = totalPlaytime;
-        this.isMultiplayer = isMultiplayer;
+        this.totalPlaytimeHours = totalPlaytimeHours;
+        this.multiplayer = multiplayer;
     }
 
-    // Getters
-    public String getGameName() { return gameName; }
-    public double getGameSize() { return gameSize; }
-    public int getDaysSinceLastPlayed() { return daysSinceLastPlayed; }
-    public int getTotalPlaytime() { return totalPlaytime; }
-    public boolean isMultiplayer() { return isMultiplayer; }
-    public double getDeletionRanking() { return deletionRanking; }
+    // --- Existing getters & setters ---
 
-    // Setter for deletion ranking (calculated by DeletionRank class)
-    public void setDeletionRanking(double deletionRanking) {
-        this.deletionRanking = deletionRanking;
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public double getSizeGB() {
+        return sizeGB;
+    }
+
+    public void setSizeGB(double sizeGB) {
+        this.sizeGB = sizeGB;
+    }
+
+    public int getDaysSinceLastPlayed() {
+        return daysSinceLastPlayed;
+    }
+
+    public void setDaysSinceLastPlayed(int daysSinceLastPlayed) {
+        this.daysSinceLastPlayed = daysSinceLastPlayed;
+    }
+
+    public int getTotalPlaytimeHours() {
+        return totalPlaytimeHours;
+    }
+
+    public void setTotalPlaytimeHours(int totalPlaytimeHours) {
+        this.totalPlaytimeHours = totalPlaytimeHours;
+    }
+
+    public boolean isMultiplayer() {
+        return multiplayer;
+    }
+
+    public void setMultiplayer(boolean multiplayer) {
+        this.multiplayer = multiplayer;
+    }
+
+    public double getScore() {
+        return score;
+    }
+
+    public void setScore(double score) {
+        this.score = score;
+    }
+
+    // --- Added for backwards compatibility with old API ---
+
+    /**
+     * @return the size of the game in GB (alias for getSizeGB)
+     */
+    public double getGameSize() {
+        return getSizeGB();
+    }
+
+    /**
+     * @return total playtime in hours (alias for getTotalPlaytimeHours)
+     */
+    public int getTotalPlaytime() {
+        return getTotalPlaytimeHours();
+    }
+
+    /**
+     * @param ranking the deletion ranking score to assign (alias for setScore)
+     */
+    public void setDeletionRanking(double ranking) {
+        setScore(ranking);
+    }
+
+    /**
+     * @return the deletion ranking score (alias for getScore)
+     */
+    public double getDeletionRanking() {
+        return getScore();
     }
 }
+
+
