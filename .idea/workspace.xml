@@ -4,12 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fcf03bf2-447b-4841-b898-e666271f2974" name="Changes" comment="I need to fix the placeholder text and the Popup location">
+    <list default="true" id="fcf03bf2-447b-4841-b898-e666271f2974" name="Changes" comment="5/1/25 Anthony">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Games2Delete/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Games2Delete/Game.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/PlayVaultCurator/UI/DeletionList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/PlayVaultCurator/UI/DeletionList.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/PlayVaultCurator/UI/HomePage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/PlayVaultCurator/UI/HomePage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/PlayVaultCurator/UI/ResizeHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/PlayVaultCurator/UI/ResizeHelper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/PlayVaultCurator/UI/SettingsPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/PlayVaultCurator/UI/SettingsPage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/dark-theme.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/dark-theme.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,12 +35,12 @@
     &quot;assignee&quot;: &quot;Douglas9149&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/SimpleJack6103/PlayVault-Curator.git",
-    "accountId": "52a24e76-6618-4edd-bc05-f36c043d4ac6"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/SimpleJack6103/PlayVault-Curator.git&quot;,
+    &quot;accountId&quot;: &quot;52a24e76-6618-4edd-bc05-f36c043d4ac6&quot;
   }
-}]]></component>
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 3
 }</component>
@@ -52,20 +50,20 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.TestDeletionSuggestions.executor": "Run",
-    "Application.UI.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "temp",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/antbu/IdeaProjects/javafx-sdk-23.0.2/lib",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.TestDeletionSuggestions.executor&quot;: &quot;Run&quot;,
+    &quot;Application.UI.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;temp&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/antbu/IdeaProjects/javafx-sdk-23.0.2/lib&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="Application.UI">
     <configuration name="TestDeletionSuggestions" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Games2Delete.TestDeletionSuggestions" />
@@ -131,12 +129,21 @@
       <option name="project" value="LOCAL" />
       <updated>1745984554765</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="5/1/25 Anthony">
+      <option name="closed" value="true" />
+      <created>1746109217159</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1746109217159</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="sfg" />
     <MESSAGE value="I need to fix the placeholder text and the Popup location" />
-    <option name="LAST_COMMIT_MESSAGE" value="I need to fix the placeholder text and the Popup location" />
+    <MESSAGE value="5/1/25 Anthony" />
+    <option name="LAST_COMMIT_MESSAGE" value="5/1/25 Anthony" />
   </component>
 </project>

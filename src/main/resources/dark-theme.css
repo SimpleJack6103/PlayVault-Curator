@@ -275,6 +275,14 @@
     -fx-background-color: #444444;
 }
 
+/* Error label on SettingsPage */
+.error-label {
+    -fx-text-fill: #CF6679;   /* a red/pink that stands out */
+    -fx-font-size: 12px;
+    -fx-padding: 5 0 5 0;
+}
+
+
 /* ---------------------- SETTINGS PANEL ---------------------- */
 
 /* The little gear‑icon panel on the HomePage */
