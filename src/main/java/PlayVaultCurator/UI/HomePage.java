@@ -6,94 +6,102 @@ import Games2Delete.Games2Delete;
 import PlayVaultCurator.util.DirectorySearch;
 import PlayVaultCurator.util.SettingsManager;
 import javafx.geometry.Insets;
-import javafx.scene.layout.*;
 import javafx.scene.control.Button;
+import javafx.scene.layout.*;
 
 import java.io.File;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * The main content pane for the application's Home Page.
  */
 public class HomePage extends BorderPane {
 
-    private DeletionList deletionList;
-    private MemorySection memorySection;
+    private final DeletionList deletionList;
+    private final MemorySection memorySection;
     private List<Game> games;
 
     public HomePage() {
         getStyleClass().add("home-page");
         setPadding(new Insets(10));
 
-        // --- Right: Settings panel ---
-        SettingsPanel settingsPanel = new SettingsPanel();
-        setRight(settingsPanel);
+        // Right: settings panel
+        setRight(new SettingsPanel());
 
-        // --- Center: DeletionList ---
+        // Center: deletion list
         deletionList = new DeletionList();
         setCenter(deletionList);
 
-        // --- Bottom: Memory section + Calculate button ---
+        // Bottom: memory section + calculate button
         memorySection = new MemorySection();
-        memorySection.setPrefHeight(60);
-
-        Button calculateButton = memorySection.getCalculateButton();
+        Button calc = memorySection.getCalculateButton();
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
 
-        HBox bottomBar = new HBox(10, memorySection, spacer, calculateButton);
-        bottomBar.getStyleClass().add("bottom-bar");
-        bottomBar.setPadding(new Insets(10));
-        setBottom(bottomBar);
+        HBox bottom = new HBox(10, memorySection, spacer, calc);
+        bottom.getStyleClass().add("bottom-bar");
+        bottom.setPadding(new Insets(10));
+        setBottom(bottom);
 
-        // --- Hook up Calculate Button with directory-scan fallback & logging ---
-        calculateButton.setOnAction(e -> {
-            try {
-                // 1) If no games loaded yet, scan the directory the user picked
-                if (games == null || games.isEmpty()) {
-                    String dir = SettingsManager.getGameDirectory();
-                    System.out.println("Loading games from directory: " + dir);
-                    if (dir != null && !dir.isEmpty()) {
-                        games = DirectorySearch.searchFiles(new File(dir));
-                    }
-                    System.out.println("Found " + (games == null ? 0 : games.size()) + " games.");
-                }
-
-                if (games == null || games.isEmpty()) {
-                    System.out.println("Still no games loaded – check that the directory contains games.");
-                    deletionList.updateGames(List.of());
-                    return;
-                }
-
-                // 2) Rank & suggest
-                Games2Delete.rankGamesForDeletion(games);
-                List<Game> suggestions = Games2Delete.getSuggestedGamesToUninstall(games, 50.0);
-
-                // 3) Update the list
-                deletionList.updateGames(suggestions);
-
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-        });
+        calc.setOnAction(e -> onCalculate());
     }
 
-    /** Called by SettingsPage to inject scanned games immediately. */
+    private void onCalculate() {
+        // always re-scan games directory
+        String dir = SettingsManager.getGameDirectory();
+        if (dir != null && !dir.isEmpty()) {
+            games = DirectorySearch.searchFiles(new File(dir));
+        }
+
+        if (games == null || games.isEmpty()) {
+            deletionList.updateGames(List.of());
+            return;
+        }
+
+        double used   = memorySection.getCurrentUsageGB();
+        double total  = memorySection.getTotalGB();
+        double thresh = memorySection.getThreshold() * total;
+        double needed = used - thresh;
+
+        Games2Delete.rankGamesForDeletion(games);
+
+        if (needed > 0) {
+            List<Game> suggestions = Games2Delete.getSuggestedGamesToUninstall(games, needed);
+            deletionList.updateGames(suggestions);
+        } else {
+            List<Game> top3 = games.stream()
+                    .sorted(Comparator.comparingDouble(Game::getDeletionRanking).reversed())
+                    .limit(3)
+                    .collect(Collectors.toList());
+            deletionList.updateGamesWithHeader(
+                    "Under threshold—top candidates to uninstall:", top3);
+        }
+    }
+
+    /**
+     * Injects a real list of games into the HomePage.
+     * This method was missing; now Main.setGames(...) will compile.
+     */
     public void setGames(List<Game> games) {
         this.games = games;
-        System.out.println("HomePage received " + (games==null?0:games.size()) + " games via setGames()");
     }
 
-    /** Expose MemorySection so Main can read threshold or fire calculate. */
+    /** Expose MemorySection so SettingsPage can read/update it. */
     public MemorySection getMemorySection() {
         return memorySection;
     }
 
-    /** Expose DeletionList for other uses. */
+    /** Expose DeletionList for testing or other use. */
     public DeletionList getDeletionList() {
         return deletionList;
     }
 }
+
+
+
+
 
 
 

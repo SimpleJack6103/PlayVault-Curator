@@ -10,58 +10,62 @@ import javafx.scene.layout.VBox;
 
 import java.util.List;
 
+/**
+ * A scrollable list displaying games to uninstall, with placeholder and header support.
+ */
 public class DeletionList extends ScrollPane {
 
     private final VBox listContainer;
 
     public DeletionList() {
-        this.getStyleClass().add("game-list");
+        getStyleClass().add("game-list");
 
-        listContainer = new VBox();
-        listContainer.setSpacing(10);
+        listContainer = new VBox(10);
         listContainer.setPadding(new Insets(10));
-        listContainer.setFillWidth(true);
         listContainer.setStyle("-fx-background-color: #2A2A2A;");
+        setContent(listContainer);
+        setFitToWidth(true);
+        setStyle("-fx-background-color: transparent;");
 
-        this.setContent(listContainer);
-        this.setFitToWidth(true);
-        this.setStyle("-fx-background-color: transparent;");
-
+        // style viewport when ready
         Platform.runLater(() -> {
-            var viewport = this.lookup(".viewport");
-            if (viewport != null) {
-                viewport.setStyle("-fx-background-color: #2E2E2E;");
-            }
+            var vp = lookup(".viewport");
+            if (vp != null) vp.setStyle("-fx-background-color: #2E2E2E;");
         });
 
-        // Add welcome/placeholder message
-        showPlaceholder();
+        // initial welcome
+        showPlaceholder("Welcome! Choose Settings → directory, then Calculate.");
     }
 
     public void updateGames(List<Game> gamesToDelete) {
         listContainer.getChildren().clear();
-
         if (gamesToDelete == null || gamesToDelete.isEmpty()) {
-            showPlaceholder();
+            showPlaceholder("No suggestions available. Adjust your threshold.");
         } else {
-            Label header = new Label("Games Selected for Deletion:");
-            header.getStyleClass().add("deletion-game-header");
-            listContainer.getChildren().add(header);
-
-            for (Game game : gamesToDelete) {
-                Label gameLabel = new Label(game.getGameName() + " - " + game.getGameSize() + " GB");
-                gameLabel.getStyleClass().add("deletion-game");
-                listContainer.getChildren().add(gameLabel);
+            for (Game g : gamesToDelete) {
+                Label lbl = new Label("• " + g.getGameName() + " (" + g.getSizeGB() + " GB)");
+                lbl.getStyleClass().add("deletion-game");
+                listContainer.getChildren().add(lbl);
             }
         }
     }
 
-    private void showPlaceholder() {
-        Label placeholder = new Label("No games selected for deletion.");
+    public void updateGamesWithHeader(String headerText, List<Game> games) {
+        listContainer.getChildren().clear();
+        Label header = new Label(headerText);
+        header.getStyleClass().add("deletion-game-header");
+        listContainer.getChildren().add(header);
+        updateGames(games);
+    }
+
+    private void showPlaceholder(String text) {
+        Label placeholder = new Label(text);
         placeholder.getStyleClass().add("placeholder-text");
         listContainer.getChildren().add(placeholder);
     }
 }
+
+
 
 
 

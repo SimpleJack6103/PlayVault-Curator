@@ -18,12 +18,13 @@ public class SettingsPage extends BorderPane {
     private TextField steamUserIdInput;
     private Label selectedDirectoryLabel;
     private Label errorLabel;
+    private String lastValid = "";
 
     public SettingsPage() {
-        VBox settingsContainer = new VBox(10);
-        settingsContainer.setPadding(new Insets(20));
-        settingsContainer.setAlignment(Pos.TOP_CENTER);
-        settingsContainer.getStyleClass().add("settings-page");
+        VBox container = new VBox(15);
+        container.setPadding(new Insets(20));
+        container.setAlignment(Pos.TOP_CENTER);
+        container.getStyleClass().add("settings-page");
 
         // Title
         Label titleLabel = new Label("Memory Threshold Settings");
@@ -33,6 +34,16 @@ public class SettingsPage extends BorderPane {
         thresholdInput = new TextField();
         thresholdInput.setPromptText("Enter threshold");
         thresholdInput.getStyleClass().addAll("text-field", "threshold-input");
+        thresholdInput.setMaxWidth(100);
+        thresholdInput.textProperty().addListener((obs, old, ni) -> {
+            try {
+                Double.parseDouble(ni);
+                lastValid = ni;
+                errorLabel.setVisible(false);
+            } catch (Exception ex) {
+                thresholdInput.setText(lastValid);
+            }
+        });
 
         unitComboBox = new ComboBox<>();
         unitComboBox.getItems().addAll("%", "GB", "MB");
@@ -48,48 +59,52 @@ public class SettingsPage extends BorderPane {
         errorLabel.setVisible(false);
 
         // Steam ID
-        Label steamIdLabel = new Label("Steam User ID:");
-        steamIdLabel.getStyleClass().add("settings-label");
+        Label steamLabel = new Label("Steam ID:");
+        steamLabel.getStyleClass().add("settings-label");
 
         steamUserIdInput = new TextField();
         steamUserIdInput.setPromptText("Enter your Steam User ID");
         steamUserIdInput.getStyleClass().add("text-field");
-        steamUserIdInput.setMaxWidth(250);  // 🔧 restrict width
+        steamUserIdInput.setMaxWidth(250);
 
         // Directory chooser
-        Button chooseDirectoryButton = new Button("Choose Game Directory");
-        chooseDirectoryButton.setOnAction(e -> openDirectoryChooser());
+        Button chooseDir = new Button("Choose Game Directory");
+        chooseDir.getStyleClass().add("button");
+        chooseDir.setOnAction(e -> openDirectoryChooser());
+
         selectedDirectoryLabel = new Label("No directory selected");
         selectedDirectoryLabel.getStyleClass().add("settings-label");
 
-        // Buttons
-        Button backButton = new Button("Back");
-        backButton.getStyleClass().add("nav-button");
-        backButton.setOnAction(e -> Main.switchToHomePage());
+        // Navigation buttons
+        Button back = new Button("Back");
+        back.getStyleClass().add("nav-button");
+        back.setOnAction(e -> Main.switchToHomePage());
 
-        Button saveButton = new Button("Save");
-        saveButton.getStyleClass().add("save-button");
-        saveButton.setOnAction(e -> saveSettings());
+        Button save = new Button("Save");
+        save.getStyleClass().add("save-button");
+        save.setOnAction(e -> saveSettings());
 
-        HBox buttonBox = new HBox(20, backButton, saveButton);
-        buttonBox.setAlignment(Pos.CENTER);
+        HBox navBox = new HBox(20, back, save);
+        navBox.setAlignment(Pos.CENTER);
 
-        settingsContainer.getChildren().addAll(
+        container.getChildren().addAll(
                 titleLabel,
                 thresholdBox,
                 errorLabel,
-                steamIdLabel, steamUserIdInput,
-                chooseDirectoryButton, selectedDirectoryLabel,
-                buttonBox
+                steamLabel, steamUserIdInput,
+                chooseDir, selectedDirectoryLabel,
+                navBox
         );
-        setCenter(settingsContainer);
+        setCenter(container);
 
         // Preload settings
-        double stored = SettingsManager.getThreshold();
-        thresholdInput.setText(String.valueOf((int)(stored * 100)));
+        double pct = SettingsManager.getThreshold() * 100;
+        thresholdInput.setText(String.valueOf((int)pct));
+        lastValid = thresholdInput.getText();
+
         steamUserIdInput.setText(SettingsManager.getSteamUserId());
-        String savedDir = SettingsManager.getGameDirectory();
-        if (!savedDir.isEmpty()) selectedDirectoryLabel.setText("Selected: " + savedDir);
+        String dir = SettingsManager.getGameDirectory();
+        if (!dir.isEmpty()) selectedDirectoryLabel.setText("Selected: " + dir);
     }
 
     private void openDirectoryChooser() {
@@ -106,59 +121,58 @@ public class SettingsPage extends BorderPane {
 
     private void saveSettings() {
         errorLabel.setVisible(false);
-        String text = thresholdInput.getText().trim();
-        if (text.isEmpty()) {
-            showError("Threshold cannot be empty.");
-            return;
-        }
-
-        double value;
+        String txt = thresholdInput.getText().trim();
+        double v;
         try {
-            value = Double.parseDouble(text);
+            v = Double.parseDouble(txt);
         } catch (NumberFormatException ex) {
-            showError("Threshold must be a number.");
+            errorLabel.setText("Must be a number");
+            errorLabel.setVisible(true);
+            thresholdInput.setText(lastValid);
             return;
         }
-
-        String unit = unitComboBox.getValue();
-        if (value < 0) {
-            showError("Threshold cannot be negative.");
+        if (v < 0) {
+            errorLabel.setText("Cannot be negative");
+            errorLabel.setVisible(true);
+            thresholdInput.setText(lastValid);
             return;
         }
 
         double totalGB = Main.getMemorySection().getTotalGB();
-
-        // Check input bounds based on unit
-        if (unit.equals("%") && value > 100) {
-            showError("Percentage must be ≤ 100.");
+        String unit = unitComboBox.getValue();
+        if (unit.equals("%") && v > 100) {
+            errorLabel.setText("Must be ≤100%");
+            errorLabel.setVisible(true);
+            thresholdInput.setText(lastValid);
             return;
-        } else if (unit.equals("GB") && value > totalGB) {
-            showError("Cannot exceed total storage (" + (int) totalGB + " GB).");
+        }
+        if (unit.equals("GB") && v > totalGB) {
+            errorLabel.setText("Cannot exceed " + (int) totalGB + " GB");
+            errorLabel.setVisible(true);
+            thresholdInput.setText(lastValid);
             return;
-        } else if (unit.equals("MB") && value > totalGB * 1024) {
-            showError("Cannot exceed total storage (" + (int)(totalGB * 1024) + " MB).");
+        }
+        if (unit.equals("MB") && v > totalGB * 1024) {
+            errorLabel.setText("Cannot exceed " + (int)(totalGB*1024) + " MB");
+            errorLabel.setVisible(true);
+            thresholdInput.setText(lastValid);
             return;
         }
 
-        // Normalize
-        double normalized;
-        switch (unit) {
-            case "%": normalized = value / 100.0; break;
-            case "GB": normalized = totalGB > 0 ? value / totalGB : 0; break;
-            case "MB": normalized = totalGB > 0 ? (value / 1024.0) / totalGB : 0; break;
-            default: normalized = 0;
-        }
+        double norm = switch (unit) {
+            case "%"  -> v/100.0;
+            case "GB" -> v/totalGB;
+            default   -> (v/1024.0)/totalGB;
+        };
 
-        Main.getMemorySection().setThreshold(normalized);
-        SettingsManager.setThreshold(normalized);
+        Main.getMemorySection().setThreshold(norm);
+        SettingsManager.setThreshold(norm);
         SettingsManager.setSteamUserId(steamUserIdInput.getText().trim());
-    }
-
-    private void showError(String msg) {
-        errorLabel.setText(msg);
-        errorLabel.setVisible(true);
+        lastValid = txt;
     }
 }
+
+
 
 
 
