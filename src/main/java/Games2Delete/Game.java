@@ -20,7 +20,7 @@ public class Game {
         this.multiplayer = multiplayer;
     }
 
-    // --- Existing getters & setters ---
+    // Primary getters & setters
 
     public String getName() {
         return name;
@@ -70,35 +70,33 @@ public class Game {
         this.score = score;
     }
 
-    // --- Added for backwards compatibility with old API ---
+    // Backwards-compatibility aliases for earlier code
 
-    /**
-     * @return the size of the game in GB (alias for getSizeGB)
-     */
+    /** Alias for getName() */
+    public String getGameName() {
+        return getName();
+    }
+
+    /** Alias for getSizeGB() */
     public double getGameSize() {
         return getSizeGB();
     }
 
-    /**
-     * @return total playtime in hours (alias for getTotalPlaytimeHours)
-     */
+    /** Alias for getTotalPlaytimeHours() */
     public int getTotalPlaytime() {
         return getTotalPlaytimeHours();
     }
 
-    /**
-     * @param ranking the deletion ranking score to assign (alias for setScore)
-     */
+    /** Alias for setScore() */
     public void setDeletionRanking(double ranking) {
         setScore(ranking);
     }
 
-    /**
-     * @return the deletion ranking score (alias for getScore)
-     */
+    /** Alias for getScore() */
     public double getDeletionRanking() {
         return getScore();
     }
 }
+
 
 

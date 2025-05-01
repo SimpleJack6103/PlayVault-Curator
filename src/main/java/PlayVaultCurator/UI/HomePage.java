@@ -2,13 +2,13 @@
 package PlayVaultCurator.UI;
 
 import Games2Delete.Game;
+import Games2Delete.Games2Delete;
 import PlayVaultCurator.util.DirectorySearch;
 import PlayVaultCurator.util.SettingsManager;
-import PlayVaultCurator.util.SuggestionGenerator;
-import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.layout.*;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+
 import java.io.File;
 import java.util.List;
 
@@ -22,87 +22,55 @@ public class HomePage extends BorderPane {
     private List<Game> games;
 
     public HomePage() {
-        // Apply CSS class
         getStyleClass().add("home-page");
         setPadding(new Insets(10));
 
-        // Right: Settings panel
+        // --- Right: Settings panel ---
         SettingsPanel settingsPanel = new SettingsPanel();
-        settingsPanel.getStyleClass().add("settings-panel");
         setRight(settingsPanel);
 
-        // Center: DeletionList
+        // --- Center: DeletionList ---
         deletionList = new DeletionList();
-        deletionList.getStyleClass().add("deletion-list");
         setCenter(deletionList);
 
-        // Bottom: MemorySection + Calculate button
+        // --- Bottom: Memory section + Calculate button ---
         memorySection = new MemorySection();
-        HBox bottomBar = new HBox(memorySection);
+        memorySection.setPrefHeight(60);
+
+        Button calculateButton = memorySection.getCalculateButton();
+        Region spacer = new Region();
+        HBox.setHgrow(spacer, Priority.ALWAYS);
+
+        HBox bottomBar = new HBox(10, memorySection, spacer, calculateButton);
         bottomBar.getStyleClass().add("bottom-bar");
-        HBox.setHgrow(memorySection, Priority.ALWAYS);
+        bottomBar.setPadding(new Insets(10));
         setBottom(bottomBar);
 
-        // Calculate logic
-        memorySection.getCalculateButton().setOnAction(e -> {
+        // --- Hook up Calculate Button with directory-scan fallback & logging ---
+        calculateButton.setOnAction(e -> {
             try {
-                // 1) Load games if not already loaded
+                // 1) If no games loaded yet, scan the directory the user picked
                 if (games == null || games.isEmpty()) {
-                    String path = SettingsManager.getGameDirectory();
-                    if (path != null && !path.isEmpty()) {
-                        games = DirectorySearch.searchFiles(new File(path));
+                    String dir = SettingsManager.getGameDirectory();
+                    System.out.println("Loading games from directory: " + dir);
+                    if (dir != null && !dir.isEmpty()) {
+                        games = DirectorySearch.searchFiles(new File(dir));
                     }
+                    System.out.println("Found " + (games == null ? 0 : games.size()) + " games.");
                 }
 
                 if (games == null || games.isEmpty()) {
-                    System.out.println("No games loaded yet.");
-                    return;
-                }
-
-                // 2) Compute how much needs to be freed
-                double used   = memorySection.getCurrentUsageGB();
-                double total  = memorySection.getTotalGB();
-                double thresh = memorySection.getThreshold() * total;
-                double needed = used - thresh;
-
-                if (needed <= 0) {
+                    System.out.println("Still no games loaded – check that the directory contains games.");
                     deletionList.updateGames(List.of());
-                    System.out.println("Already under threshold.");
                     return;
                 }
 
-                // 3) Generate suggestion sets
-                List<List<Game>> sets = SuggestionGenerator.getSuggestionSets(games, needed, 2);
-                deletionList.updateSuggestionSets(sets);
+                // 2) Rank & suggest
+                Games2Delete.rankGamesForDeletion(games);
+                List<Game> suggestions = Games2Delete.getSuggestedGamesToUninstall(games, 50.0);
 
-                // 4) Show MemoryBarPopup for first suggestion set
-                double freedGB = sets.stream()
-                        .findFirst()
-                        .orElse(List.of())
-                        .stream()
-                        .mapToDouble(Game::getSizeGB)
-                        .sum();
-                double usedMB    = used    * 1024;
-                double freedMB   = freedGB * 1024;
-                double desiredMB = thresh  * 1024;
-
-                MemoryBarPopup popup = new MemoryBarPopup(usedMB, freedMB, desiredMB);
-                popup.getStyleClass().add("memory-popup");
-
-                if (!memorySection.getChildren().contains(popup)) {
-                    memorySection.getChildren().add(popup);
-                }
-
-                // Optional: only show popup on hover
-                deletionList.setOnMouseEntered(event -> {
-                    if (!memorySection.getChildren().contains(popup)) {
-                        memorySection.getChildren().add(popup);
-                    }
-                });
-
-                deletionList.setOnMouseExited(event -> {
-                    memorySection.getChildren().remove(popup);
-                });
+                // 3) Update the list
+                deletionList.updateGames(suggestions);
 
             } catch (Exception ex) {
                 ex.printStackTrace();
@@ -110,20 +78,24 @@ public class HomePage extends BorderPane {
         });
     }
 
-    /** Called externally to populate games and trigger calculation. */
+    /** Called by SettingsPage to inject scanned games immediately. */
     public void setGames(List<Game> games) {
         this.games = games;
-        Platform.runLater(() -> memorySection.getCalculateButton().fire());
+        System.out.println("HomePage received " + (games==null?0:games.size()) + " games via setGames()");
     }
 
+    /** Expose MemorySection so Main can read threshold or fire calculate. */
     public MemorySection getMemorySection() {
         return memorySection;
     }
 
+    /** Expose DeletionList for other uses. */
     public DeletionList getDeletionList() {
         return deletionList;
     }
 }
+
+
 
 
 
