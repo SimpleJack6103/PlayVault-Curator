@@ -5,10 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fcf03bf2-447b-4841-b898-e666271f2974" name="Changes" comment="Had to add an error message for bad input on threshold in css and SettingsPage.java (bad input doesnt save reverts to last valid input)">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/PlayVaultCurator/UI/DeletionList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/PlayVaultCurator/UI/DeletionList.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/PlayVaultCurator/UI/HomePage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/PlayVaultCurator/UI/HomePage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/PlayVaultCurator/UI/SettingsPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/PlayVaultCurator/UI/SettingsPage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Games2Delete/DeletionRank.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Games2Delete/DeletionRank.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Games2Delete/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Games2Delete/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Games2Delete/Games2Delete.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Games2Delete/Games2Delete.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Games2Delete/PickGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Games2Delete/PickGame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/PlayVaultCurator/DataMapping/SteamGameConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/PlayVaultCurator/DataMapping/SteamGameConverter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/PlayVaultCurator/util/DirectorySearch.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/PlayVaultCurator/util/DirectorySearch.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,7 +43,7 @@
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/SimpleJack6103/PlayVault-Curator.git&quot;,
-    &quot;accountId&quot;: &quot;52a24e76-6618-4edd-bc05-f36c043d4ac6&quot;
+    &quot;accountId&quot;: &quot;1c449c35-4aa9-49f2-a47a-372990b36759&quot;
   }
 }</component>
   <component name="ProjectColorInfo">{
@@ -60,7 +64,7 @@
     &quot;git-widget-placeholder&quot;: &quot;temp&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/Users/antbu/IdeaProjects/javafx-sdk-23.0.2/lib&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;
   }
@@ -81,8 +85,8 @@
     </configuration>
     <configuration name="UI" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="PlayVaultCurator.UI.Main" />
-      <module name="PlayVault-Curator" />
-      <option name="VM_PARAMETERS" value="--module-path &quot;D:\IntelliJ IDEA Community Edition 2024.3.2.2\javafx-sdk-23.0.2\lib&quot; --add-modules javafx.controls,javafx.fxml" />
+      <module name="PlayVaultCurator" />
+      <option name="VM_PARAMETERS" value="--module-path &quot;$USER_HOME$/Downloads/javafx-sdk-21.0.7/lib&quot; --add-modules javafx.controls,javafx.fxml" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>

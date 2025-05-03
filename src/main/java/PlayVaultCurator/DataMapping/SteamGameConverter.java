@@ -7,43 +7,55 @@ import Games2Delete.Game;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class SteamGameConverter {
 
-    /**
-     * Converts Steam API owned games into your internal Game objects.
-     * Uses the provided steamID to query the API.
-     * Optionally, a local game directory (directoryRoot) may be used to supplement local metadata,
-     * though this example uses default local values if no matching data is found.
-     *
-     * @param steamID the Steam user ID
-     * @param directoryRoot the local game installation directory (can be used for local metadata)
-     * @return a list of Game objects representing the Steam library
-     * @throws IOException if an API call fails
-     */
     public static List<Game> convertSteamGamesToGames(String steamID, File directoryRoot) throws IOException {
         SteamAPI steamAPI = new SteamAPI(steamID);
-        // Retrieve the owned games via the Steam API.
         SteamLibrary library = steamAPI.getOwnedGames();
+
+        File vdf = findLibraryFoldersFile(directoryRoot);
+        if (vdf != null && vdf.exists()) {
+            String contents = Files.readString(vdf.toPath());
+            Map<Integer, Long> sizeMap = library.parseLibraryFolder(contents);
+            library.setGameSizes(sizeMap);
+        }
+
         List<SteamGame> steamGames = library.getLibrary();
-
         List<Game> games = new ArrayList<>();
-        // For each Steam game, create an internal Game object.
-        // Here we use default values for daysSinceLastPlayed and gameSize since local mapping may not be available.
-        // You could optionally use a local directory scan (for example, via DirectorySearch) to enrich this data.
-        for (SteamGame sg : steamGames) {
-            // Default values: if no local metadata is available:
-            int daysSinceLastPlayed = 0;
-            // Convert playtime from minutes to hours.
-            int totalPlaytime = sg.getPlaytime_forever() / 60;
-            // Default game size: if no local metadata exists, default to 5.0 GB.
-            double gameSizeGB = 5.0;
 
-            Game game = new Game(sg.getName(), gameSizeGB, daysSinceLastPlayed, totalPlaytime, false);
+        for (SteamGame sg : steamGames) {
+            boolean recentlyPlayed = sg.getPlaytime_2weeks() > 0;
+            int totalPlaytime = sg.getPlaytime_forever() / 60;
+            double gameSizeGB = sg.getGameSize() / (1024.0 * 1024 * 1024.0);
+
+            if (gameSizeGB <= 0.1) {
+                gameSizeGB = 5.0;
+            }
+
+            Game game = new Game(sg.getName(), gameSizeGB, recentlyPlayed, totalPlaytime);
             games.add(game);
         }
         return games;
+    }
+
+    private static File findLibraryFoldersFile(File directoryRoot) {
+        if (directoryRoot == null || !directoryRoot.exists()) return null;
+        File[] files = directoryRoot.listFiles();
+        if (files == null) return null;
+
+        for (File file : files) {
+            if (file.isFile() && file.getName().equalsIgnoreCase("libraryfolders.vdf")) {
+                return file;
+            } else if (file.isDirectory()) {
+                File nested = findLibraryFoldersFile(file);
+                if (nested != null) return nested;
+            }
+        }
+        return null;
     }
 }

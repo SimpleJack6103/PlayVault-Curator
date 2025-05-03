@@ -9,10 +9,8 @@ public class PickGame {
 
     public static List<Game> suggestGamesToUninstall(List<Game> games, double neededSpace) {
         List<Game> sortedGames = new ArrayList<>(games); // Copy list
-        sortedGames.sort(Comparator.comparingDouble(Game::getDeletionRanking));
+        sortedGames.sort(Comparator.comparingDouble(Game::getScore));
 
-        // If no extra space is needed (user is already under threshold),
-        // then just return the top few highest ranked games (e.g., top 3).
         if (neededSpace <= 0) {
             int numSuggestions = Math.min(3, sortedGames.size());
             return sortedGames.subList(0, numSuggestions);
@@ -22,12 +20,11 @@ public class PickGame {
         double freedSpace = 0;
 
         for (Game game : sortedGames) {
-            // If a single game is large enough, return it immediately.
-            if (game.getGameSize() >= neededSpace) {
+            if (game.getSizeGB() >= neededSpace) {
                 return Collections.singletonList(game);
             }
             suggestedGames.add(game);
-            freedSpace += game.getGameSize();
+            freedSpace += game.getSizeGB();
 
             if (freedSpace >= neededSpace) {
                 return suggestedGames;

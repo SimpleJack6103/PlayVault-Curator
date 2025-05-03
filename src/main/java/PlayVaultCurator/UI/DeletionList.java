@@ -43,7 +43,7 @@ public class DeletionList extends ScrollPane {
             showPlaceholder("No suggestions available. Adjust your threshold.");
         } else {
             for (Game g : gamesToDelete) {
-                Label lbl = new Label("• " + g.getGameName() + " (" + g.getSizeGB() + " GB)");
+                Label lbl = new Label("• " + g.getName() + " (" + g.getSizeGB() + " GB)");
                 lbl.getStyleClass().add("deletion-game");
                 listContainer.getChildren().add(lbl);
             }
@@ -64,10 +64,3 @@ public class DeletionList extends ScrollPane {
         listContainer.getChildren().add(placeholder);
     }
 }
-
-
-
-
-
-
-
