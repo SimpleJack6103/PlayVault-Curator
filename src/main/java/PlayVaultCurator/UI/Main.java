@@ -71,6 +71,8 @@ public class Main extends Application {
     public static void setGames(List<Game> games) {
         if (currentHomePage != null) {
             currentHomePage.setGames(games);
+            System.out.println("Found " + games.size() + " .exe files.");
+
         }
     }
 
