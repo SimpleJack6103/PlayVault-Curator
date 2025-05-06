@@ -10,6 +10,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+
+
 public class DirectorySearch {
 
     private static List<Game> games = new ArrayList<>();
@@ -62,6 +64,9 @@ public class DirectorySearch {
         return size;
     }
 
+
+
+
     //search for files given a directory
     public static void searchFileD(File directory) {
         File[] files = directory.listFiles();
@@ -89,17 +94,19 @@ public class DirectorySearch {
             BasicFileAttributes attrs = Files.readAttributes(filePath, BasicFileAttributes.class); //read in attrs
             String fileName = f_type.getName();
             String fileType = getExtension(filePath);
-            long fileSize = f_type.length();
+            double fileSize = f_type.length();
             String lastAccessed = new SimpleDateFormat("MM-dd-yyyy  HH:mm:ss").format(attrs.lastAccessTime().toMillis());
             if (fileType.equals("exe")|| fileType.equals("Application")) {
-                double sizeGB = fileSize / (1024.0 * 1024 * 1024.0);
+                double sizeGB = fileSize / 1024.0;
+                sizeGB = Math.round(sizeGB * 1000.0) / 1000.0;
+
                 int totalPlaytime = 0; //placeholder
                 boolean recentlyPlayed = false; //placeholder
 
                 Game game = new Game(fileName, sizeGB, recentlyPlayed, totalPlaytime);
                 games.add(game);
                 System.out.printf("Name: %s, Type: %s, Size: %.2f MB, Last Accessed: %s%n",
-                        fileName, fileType, fileSize / (1024.0 * 1024.0), lastAccessed);
+                        fileName, fileType, fileSize, lastAccessed);
             } else {
                 System.out.println("----- ");
             }
