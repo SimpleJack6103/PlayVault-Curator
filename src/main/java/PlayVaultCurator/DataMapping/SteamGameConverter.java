@@ -37,7 +37,7 @@ public class SteamGameConverter {
                 gameSizeGB = 5.0;
             }
 
-            Game game = new Game(sg.getName(), gameSizeGB, recentlyPlayed, totalPlaytime);
+            Game game = new Game(sg.getName(), gameSizeGB, /*recentlyPlayed,*/ totalPlaytime);
             games.add(game);
         }
         return games;

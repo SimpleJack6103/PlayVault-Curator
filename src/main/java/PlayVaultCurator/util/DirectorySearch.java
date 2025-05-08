@@ -9,6 +9,7 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+//import java.util.Random;
 
 
 
@@ -101,9 +102,11 @@ public class DirectorySearch {
                 sizeGB = Math.round(sizeGB * 1000.0) / 1000.0;
 
                 int totalPlaytime = 0; //placeholder
-                boolean recentlyPlayed = false; //placeholder
+              //  boolean recentlyPlayed = false; //placeholder
+              // recentlyPlayed = new Random().nextBoolean() ? recentlyPlayed : false;
 
-                Game game = new Game(fileName, sizeGB, recentlyPlayed, totalPlaytime);
+
+                Game game = new Game(fileName, sizeGB , /*recentlyPlayed,*/ totalPlaytime);
                 games.add(game);
                 System.out.printf("Name: %s, Type: %s, Size: %.2f MB, Last Accessed: %s%n",
                         fileName, fileType, fileSize, lastAccessed);
@@ -113,6 +116,44 @@ public class DirectorySearch {
         }
         catch(Exception e){
             System.out.println("Error retrieving file attributes for " + f_type.getAbsolutePath());
+        }
+    }
+
+    //search for steam files given a directory
+    public static void searchSteamFolder(File directory) {
+        File[] files = directory.listFiles();
+        if (files != null) {
+            for (File file : files) {
+                if (file.isFile()) {
+                    steamLookup(file);
+                } else if (file.isDirectory()) {
+                    searchFiles(file);
+                }
+            }
+        }
+    }
+
+    public static String steamLookup(File f_type){
+        try {
+            Path filePath = f_type.toPath();  // fetch path
+            BasicFileAttributes attrs = Files.readAttributes(filePath, BasicFileAttributes.class); //read in attrs
+            String fileName = f_type.getName();
+            String fileType = getExtension(filePath);
+            //  long fileSize = f_type.length();
+            // String lastAccessed = new SimpleDateFormat("MM-dd-yyyy  HH:mm:ss").format(attrs.lastAccessTime().toMillis());
+            if (fileType.equals("vdf") && fileName.equals("libraryfolders.vdf")) {
+
+                // Read file contents as a string
+                String content = Files.readString(filePath);
+                return "\n--- File Contents ---\n" + content;
+            } else {
+                return " "; //file not the target
+            }
+        }
+        catch(Exception e){
+            System.out.println("Error retrieving file attributes for " + f_type.getAbsolutePath());
+            e.printStackTrace();
+            return " ";
         }
     }
 }
